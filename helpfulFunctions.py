@@ -1,7 +1,7 @@
 ##############################################
 #intended to create a set of helpful functions for testing purposes
 #And for conciseness
-#Programmed by Ryan Bao 
+#Programmed by Ryan Bao Ah fuck testing
 ##############################################
 import math
 import sys
