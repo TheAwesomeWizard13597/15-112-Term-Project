@@ -1,0 +1,8 @@
+﻿weapon,strength,crushing,slashing,magic,piercing,range,durability,special,rarity,value
+mace,7,1,0,0,0,0,7,None,1,10
+sword,5,0,1,0,0,0,7,None,1,10
+staff,3,0,0,1,0,1,8,None,1,10
+bow,3,0,0,0,1,1,5,None,1,10
+crossbow,2,0,0,0,1,1,6,None,1,10
+club,6,1,0,0,0,0,7,None,1,10
+wand,2,0,0,1,0,1,10,None,1,10

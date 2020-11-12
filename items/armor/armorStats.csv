@@ -1,0 +1,10 @@
+armor,type,value,protection,rarity,special
+steelLeggings,legs,15,5,2,None
+steelChest,chest,15,6,2,None
+steelBoot,feet,15,3,2,None
+steelHelmet,head,15,4,2,None
+ironLeggings,legs,10,4,1,None
+ironChest,chest,10,5,1,None
+ironBoot,feet,10,2,1,None
+ironHelmet,head,10,3,1,None
+featherBoots,feet,50,4,3,noKBDamage
