@@ -1,7 +1,8 @@
 ##############################################
 #intended to create a set of helpful functions for testing purposes
 #And for conciseness
-#Programmed by Ryan Bao Ah fuck testing
+#Programmed by Ryan Bao Testing Part 2
+#ABCDEFG
 ##############################################
 import math
 import sys
