@@ -74,6 +74,7 @@ def pointInRectangle(rect1Dim, rect2Dim):
     return False
 
         
-    
+def thunk():
+    return(False)
 
 findInstallLibrary('')
