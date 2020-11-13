@@ -8,7 +8,7 @@ import random, threading, ctypes, time, wave
 #from pydub import AudioSegment
 #from pydub.playback import play
 #cd "d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Homework/week4"
-#Testing
+
 
         
         
@@ -203,7 +203,7 @@ def redrawAll(app, canvas):
         drawFigure(app, canvas)
 
         
-
+'''
 class audioThread(threading.Thread):
     def __init__(self, threadID):
         threading.Thread.__init__(self)
@@ -230,7 +230,7 @@ class audioThread(threading.Thread):
         self.test = True
 
 audioThread = audioThread(2)
-audioThread.start()
+audioThread.start()'''
 runApp(width = 300, height = 300)
 time.sleep(2)
 

@@ -74,7 +74,7 @@ def generateChunkObstacles(width, height, seed):
         for obstacle, xpos, ypos in obstacleLocations:
             obstacleBounds = obstacle.getBounds(xpos, ypos)
             tempObstacleBounds = tempObstacle.getBounds(obstacleXPos, obstacleYPos)
-            if pointInRectangle(obstacleBounds, tempObstacleBounds):
+            if rectangleIntersect(obstacleBounds, tempObstacleBounds):
                 isLegalObstacle = False
                 break
         if isLegalObstacle:
