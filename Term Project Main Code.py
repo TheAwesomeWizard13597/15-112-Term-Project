@@ -4,10 +4,10 @@ from helpfulFunctions import *
 from itemCode import *
 from combatCode import * 
 from mapCode import * 
-import random, threading, ctypes, time, pyaudio, wave
-from pydub import AudioSegment
-from pydub.playback import play
-
+import random, threading, ctypes, time, wave
+#from pydub import AudioSegment
+#from pydub.playback import play
+cd "d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Homework/week4"
 
 
         
