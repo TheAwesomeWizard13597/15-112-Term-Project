@@ -1,0 +1,66 @@
+###Character Code
+This program creates a list of characters, their animation frames, and their statistics, based around
+multidimensional dictionaries.
+
+app.charStats[CharacterName][StatType] --> Retrieves a certain statistic from a character
+StatType can be 'strength', 'constitution', 'dexterity', 'intelligence', 'ranged', and 'hitpoints'
+Statistics except range are in the form of a 1-10 number, ranged is true/false
+
+app.charAnimations[CharacterName][MoveType][Frame] --> Retrieves a frame
+app.charAnimations[CharacterName][MoveType] --> Retrieves a list of frames
+
+In the base game, CharacterName can be 'char0', 'char1', 'char2', 'char3'
+MoveType can be 'pickUp', 'attack', 'normalMove', 'idle'
+
+
+###Combat Code
+This program has a series of functions designed to help with combat scenarios
+
+damageCalculator(charStats, item):
+Takes two arguments. charStats is a dictionary retrieved by app.charStats[characterName], item
+is a datatype defined in itemCode and can be retrieved by app.weaponItems[weaponName]
+
+
+###Item Code
+This program creates a set of dictionaries with new data types, a weapons dictionary, a junk
+items dictionary, and an armor items dictionary
+
+app.armorItems[armorName] --> Retrieves a certain armor item
+app.weaponItems[weaponName] --> Retrieves a certain weapon item
+app.junkItems[itemName] --> Retrieves a certain junk item
+
+Armor Items have the properties name, type, value, amount, protectionVal, rarity, imageSource,
+enchantment, and special
+For the base game, enchantments and special are defaulted to None.
+
+Weapon items have the properties name, strength, damage type, durability, special, rarity, value, amount,
+imageSource, and enchantment
+
+Junk items have the properties name, value, amount and imageSource
+
+###Map Code
+Generates a 2-D list as a "map". Indexing into the map with app.map[mapRow][mapCol] returns a chunk,
+a data type with the attributes obstacles, enemies, objectives, and treasure. These are all lists.
+To generate a new map, use mapData(size, chunkWidth, chunkHeight, seed = seed)
+size can be 'large', 'medium', 'small', and seed can be any combination of characters
+
+obstacle is a class with the attributes height, width, imageFile, hitPoints, drops, and names. It has
+method getBounds(xpos, ypos), which takes in the position of the obstacle and returns the bounds of
+the rectangular image.
+The obstacle list is a list of tuples, with each entry being (obstacle, x, y) where x, y is the position
+of the obstacle
+
+###Helpful Functions
+This program has a set of helpful functions in game creation.
+make2dList(rows, cols) makes a 2d list with the appropriate rows and columns
+distance(x0, y0, x1, y1) returns the distance between two points
+rectangleIntersect(rect1Dim, rect2Dim) takes two arguments of tuples (x0, x1, y0, y1) for each rectangle
+and returns True if they intersect and False if they don't
+lineInRectangle(lineStart, lineEnd, rectDim) takes three arguments. The first two are tuples (x, y) and
+the third is a tuple (x0, x1, y0, y1). It returns True if the line goes through the rectangle and False
+if it does not
+pointInRectangle(pointCoords, rectCoords) takes two arguments. The first is a tuple (x, y) and the second
+is a tuple (x0, x1, y0, y1). It returns True if the point is in the rectangle and False otherwise
+
+
+### Main Code
