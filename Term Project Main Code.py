@@ -29,6 +29,7 @@ def appStarted(app):
 
 
     app.weaponItems = getWeaponItems()
+    app.equippedWeapon = app.weaponItems['Sword']
     app.armorItems = getArmorItems()     
     app.junkItems = getJunkItems()
     getItemDrops(app)
@@ -123,10 +124,23 @@ def mousePressed(app, event):
         app.i = 0
         app.currFrame = 0
         defineMoveType(app)
+        if app.charStats[app.currChar]['ranged']:
+            for obstacle in app.map[app.mapRow][app.mapCol].obstacles:
+                if lineInRectangle((app.charX, app.charY), (event.x, event.y), obstacle.getBounds):
+                    obstacle.hitPoints -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
+                    return
+
+
 
 def generateMapApp(app):
     seed = app.getUserInput('Enter a seed here! Leave blank for a random seed')
     app.map = mapData(app.size, app.width, app.height, seed = seed)
+    if app.size == 'large':
+        app.mapRow = app.mapCol = 4
+    elif app.size == 'medium':
+        app.mapRow = app.mapCol = 3
+    else:
+        app.mapRow = app.mapCol = 2
     app.mapCreation = False
     app.normalPlay = True
 

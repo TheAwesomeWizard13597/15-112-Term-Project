@@ -89,25 +89,57 @@
     </state>
     <state x="-1419" y="190" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@-1920.0.1920.1040" timestamp="1605304325520" />
     <state x="585" y="208" width="1092" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605305075280" />
-    <state width="936" height="213" key="GridCell.Tab.0.bottom" timestamp="1605305970675">
+    <state x="703" y="322" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1605455648950">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="936" height="213" key="GridCell.Tab.0.bottom/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605305970675" />
-    <state width="936" height="213" key="GridCell.Tab.0.center" timestamp="1605305970675">
+    <state x="703" y="322" key="#com.intellij.fileTypes.FileTypeChooser/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605455648950" />
+    <state x="698" y="233" key="FileChooserDialogImpl" timestamp="1605363708368">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="936" height="213" key="GridCell.Tab.0.center/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605305970675" />
-    <state width="936" height="213" key="GridCell.Tab.0.left" timestamp="1605305970675">
+    <state x="698" y="233" key="FileChooserDialogImpl/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605363708368" />
+    <state width="936" height="213" key="GridCell.Tab.0.bottom" timestamp="1605306143794">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="936" height="213" key="GridCell.Tab.0.left/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605305970675" />
-    <state width="936" height="213" key="GridCell.Tab.0.right" timestamp="1605305970675">
+    <state width="936" height="213" key="GridCell.Tab.0.bottom/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605306143794" />
+    <state width="936" height="213" key="GridCell.Tab.0.center" timestamp="1605306143794">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="936" height="213" key="GridCell.Tab.0.right/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605305970675" />
+    <state width="936" height="213" key="GridCell.Tab.0.center/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605306143794" />
+    <state width="936" height="213" key="GridCell.Tab.0.left" timestamp="1605306143794">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="936" height="213" key="GridCell.Tab.0.left/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605306143794" />
+    <state width="936" height="213" key="GridCell.Tab.0.right" timestamp="1605306143794">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="936" height="213" key="GridCell.Tab.0.right/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605306143794" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605304509124">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605304509124" />
+    <state x="-7" y="0" width="974" height="1047" key="dock-window-1" timestamp="1605456010934">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-7" y="0" width="974" height="1047" key="dock-window-1/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605456010934" />
+    <state width="600" height="428" key="javadoc.popup" timestamp="1605454616104">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="600" height="428" key="javadoc.popup/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605454616104" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Term Project Main Code.py</url>
+          <line>54</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Term Project Main Code.py</url>
+          <line>134</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
