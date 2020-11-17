@@ -26,7 +26,7 @@ def getCharacters():
                     if moves[-1] != 'ini':
                         characterAnimations[character][moveType] = getFrames(
                                                                 character, moveType)
-    cleanThisShitUp(characterAnimations)
+    #cleanThisShitUp(characterAnimations)
     return characterAnimations, characterStats
 
 #Loops through each of the frames in the character folder and returns a list
@@ -34,7 +34,10 @@ def getCharacters():
 def getFrames(character, moveType):
     frames = []
     for frame in os.listdir('charImages/' + character + '/' + moveType):
-        frames.append('charImages/' + character + '/' + moveType + '/' + frame)
+        if frame.split('.')[-1] != 'ini':
+            frameImage = PIL.Image.open('charImages/' + character + '/' + moveType + '/' + frame)
+            resizedImage = frameImage.resize((100, 100))
+            frames.append(resizedImage)
     return frames
 
 #Cleans up the character list by removing any files that are not .png
