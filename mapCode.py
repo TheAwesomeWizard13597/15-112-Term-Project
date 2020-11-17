@@ -1,6 +1,7 @@
 from helpfulFunctions import *
 from itemCode import *
 import random, copy
+import PIL.Image
 
 
 class obstacle():
@@ -44,14 +45,23 @@ class chunk():
         self.objectives = []
         self.treasure = []
 
+def getObstacleImages():
+    obstacles = dict()
+    for imageFile in os.listdir('obstacles/images'):
+        if imageFile.split('.')[-1] != 'ini':
+            image = PIL.Image.open('obstacles/images/' + imageFile)
+            obstacles[imageFile.split('.')[0]] = image
+    return obstacles
+
 def getObstacles():
     junkItems = getJunkItems()
-    largeRock = obstacle('large rock', 100, 100, '/obstacles/images/rock', 10, junkItems['rock'])
-    mediumRock = obstacle('medium rock', 75, 75, '/obstacles/images/rock', 10, junkItems['rock'])
-    smallRock = obstacle('small rock', 50, 50, '/obstacles/images/rock', 10, junkItems['rock'])
-    largeTree = obstacle('large tree', 100, 100, '/obstacles/images/tree', 10, junkItems['wood'])
-    mediumTree = obstacle('medium tree', 75, 75, '/obstacles/images/tree', 10, junkItems['wood'])
-    smallTree = obstacle('small tree', 50, 50, '/obstacles/images/tree', 10, junkItems['wood'])
+    obstacleImages = getObstacleImages()
+    largeRock = obstacle('large rock', 100, 100, obstacleImages['rock'].resize((100, 100)), 10, junkItems['rock'])
+    mediumRock = obstacle('medium rock', 75, 75, obstacleImages['rock'].resize((75, 75)), 10, junkItems['rock'])
+    smallRock = obstacle('small rock', 50, 50, obstacleImages['rock'].resize((50, 50)), 10, junkItems['rock'])
+    largeTree = obstacle('large tree', 100, 100, obstacleImages['rock'].resize((100, 100)), 10, junkItems['wood'])
+    mediumTree = obstacle('medium tree', 75, 75, obstacleImages['rock'].resize((75, 75)), 10, junkItems['wood'])
+    smallTree = obstacle('small tree', 50, 50, obstacleImages['rock'].resize((50, 50)), 10, junkItems['wood'])
     return (largeRock, mediumRock, smallRock, largeTree, mediumTree, smallTree)
 
 def generateChunkObstacles(width, height, seed):
@@ -133,9 +143,5 @@ def areMapsEqual(map1, map2):
             if not areChunksEqual(map1[row][col], map2[row][col]):
                 return False
     return True
-
-map1 = mapData('large', 500, 500, seed = 1239875123)
-print(map1.generatedMap[1][1].obstacles[1][0].name)
-print(map1.generatedMap)
 
         

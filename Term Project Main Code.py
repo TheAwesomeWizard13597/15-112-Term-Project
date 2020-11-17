@@ -29,7 +29,7 @@ def appStarted(app):
 
 
     app.weaponItems = getWeaponItems()
-    app.equippedWeapon = app.weaponItems['Sword']
+    app.equippedWeapon = app.weaponItems['sword']
     app.armorItems = getArmorItems()     
     app.junkItems = getJunkItems()
     getItemDrops(app)
@@ -130,8 +130,6 @@ def mousePressed(app, event):
                     obstacle.hitPoints -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
                     return
 
-
-
 def generateMapApp(app):
     seed = app.getUserInput('Enter a seed here! Leave blank for a random seed')
     app.map = mapData(app.size, app.width, app.height, seed = seed)
@@ -205,15 +203,22 @@ def drawMapCreationScreen(app, canvas):
     canvas.create_text(app.width * 5/ 6, (app.height + app.mapCreationOffset) / 2, 
                         text = 'Large Map!')
 def drawFigure(app, canvas):
-    pilImage = PIL.Image.open(app.charAnimations[app.currChar][app.moveType][app.currFrame])
-    resizedImage = pilImage.resize((app.charWidth, app.charHeight))
-    image = ImageTk.PhotoImage(resizedImage)
+#    pilImage = PIL.Image.open(app.charAnimations[app.currChar][app.moveType][app.currFrame])
+#    resizedImage = pilImage.resize((app.charWidth, app.charHeight))
+    image = ImageTk.PhotoImage(app.charAnimations[app.currChar][app.moveType][app.currFrame])
     imagesprite = canvas.create_image(app.charX, app.charY, image = image)
+
+def drawMap(app, canvas):
+    canvas.create_rectangle(0, 0, app.width, app.height, fill = 'green')
+    for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
+        image = ImageTk.PhotoImage(obstacle.imageFile)
+        canvas.create_image(x, y, image = image)
 
 def redrawAll(app, canvas):
     if app.mapCreation:
         drawMapCreationScreen(app, canvas)
     if app.normalPlay:
+        drawMap(app, canvas)
         drawFigure(app, canvas)
 
         
@@ -245,6 +250,6 @@ class audioThread(threading.Thread):
 
 audioThread = audioThread(2)
 audioThread.start()'''
-runApp(width = 300, height = 300)
+runApp(width = 1000, height = 1000)
 time.sleep(2)
 
