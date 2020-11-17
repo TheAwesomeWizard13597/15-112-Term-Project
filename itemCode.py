@@ -1,6 +1,6 @@
 from dataclasses import make_dataclass #Testing testing testing
 import pandas as pd
-import os
+import os, PIL.Image
 
 weaponItem = make_dataclass('weaponItem', ['name', 'strength', 'damageType', 'durability',
                                          'special', 'rarity', 'value', 'amount','imageSource',
@@ -24,13 +24,14 @@ def getWeaponItems():
         fileName = index + '.png'
         if os.path.exists('items/weapons/weaponImages/' + fileName):
             pathName = 'items/weapons/weaponImages/' + fileName
+            image = PIL.Image.open(pathName)
         else:
-            pathName = None
+            image = None
             print(index + ' is not here!')
         newWeapon = weaponItem(name = index, strength = strength, damageType = damageType,
                                 durability = durability, special = special,
                                 rarity = rarity, value = value, amount = 0,
-                                imageSource = pathName, enchantment = None)
+                                imageSource = image, enchantment = None)
         weapons[index] = newWeapon
     return weapons
 
@@ -41,11 +42,13 @@ def getJunkItems():
         index = i
         value = row['value']
         fileName = 'items/junk/junkImages/' + index + '.png'
-        if not os.path.exists(fileName):
-            fileName = None
+        if os.path.exists(fileName):
+            image = PIL.Image.open(fileName)
+        else:
+            image = None
             print(index + ' is not here!')
         newItem = junkItem(name = index, value = value, amount = 0, 
-                            imageSource = fileName)
+                            imageSource = image)
         junk[index] = newItem
     return junk
 
@@ -61,13 +64,15 @@ def getArmorItems():
         special = row['special']
 
         fileName = 'items/armor/armorImages/' + index + '.png'
-        if not os.path.exists(fileName):
-            fileName = None
+        if os.path.exists(fileName):
+            image = PIL.Image.open(fileName)
+        else:
+            image = None
             print(index + 'is not here!')
         newItem = armorItem(name = index, value = value, amount = 0, 
                             type = armorType, protectionVal = protection, 
                             rarity = rarity, special = special, enchantment = None,
-                            imageSource = fileName)
+                            imageSource = image)
         armor[index] = newItem
     return armor
 
