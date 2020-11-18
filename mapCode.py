@@ -144,4 +144,6 @@ def areMapsEqual(map1, map2):
                 return False
     return True
 
-        
+####Image Citations
+# http://pngimg.com/imgs/nature/stone/
+# http://pngimg.com/download/3498
