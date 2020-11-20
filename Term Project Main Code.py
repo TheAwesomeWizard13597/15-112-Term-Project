@@ -87,18 +87,22 @@ def keyPressed(app, event):
         if event.key == 'w':
             dy -= app.speed
             app.normalMove = True
+            app.charStats['dirFaced'] = 'up'
             defineMoveType(app)
         if event.key == 's':
             dy += app.speed
             app.normalMove = True
+            app.charStats['dirFaced'] = 'down'
             defineMoveType(app)
         if event.key == 'd':
             dx += app.speed
             app.normalMove = True
+            app.charStats['dirFaced'] = 'left'
             defineMoveType(app)
         if event.key == 'a':
             dx -= app.speed
             app.normalMove = True
+            app.charStats['dirFaced'] = 'right'
             defineMoveType(app)
         if event.key == 'p':
             app.pickUp = not app.pickUp
@@ -124,11 +128,44 @@ def mousePressed(app, event):
         app.i = 0
         app.currFrame = 0
         defineMoveType(app)
-        if app.charStats[app.currChar]['ranged']:
-            for obstacle in app.map[app.mapRow][app.mapCol].obstacles:
-                if lineInRectangle((app.charX, app.charY), (event.x, event.y), obstacle.getBounds):
+        if app.charStats[app.currChar]['attType'] == 'magic':
+            for obstacle, x, y in app.map[app.mapRow][app.mapCol].obstacles:
+                if lineInRectangle((app.charX, app.charY), (event.x, event.y), obstacle.getBounds(x, y)):
                     obstacle.hitPoints -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
                     return
+            for enemy in app.map[app.mapRow][app.mapCol].enemies:
+                if lineInRectangle((app.charX, app.charY), (event.x, event.y), enemy.getBounds()):
+                    enemy.hitPoints -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
+        elif app.charStats[app.currChar]['attType'] == 'magic':
+            smallestDist = None
+            closestObj = None
+            for obstacle, x, y in app.map[app.mapRow][app.mapCol].obstacles:
+                if lineInRectangle((app.charX, app.charY), (event.x, event.y), obstacle.getBounds(x, y)):
+                    obsX1, obsY1, obsX2, obsY2 = obstacle.getBounds(x, y)
+                    minDistance = min(distance(app.charX, app.charY, obsX1, obsY1), distance(app.charX, app.charY, obsX2, obsY2),
+                                    distance(app.charX, app.charY, obsX1, obsY2), distance(app.charX, app.charY, obsX2, obsY1))
+                    if minDistance < smallestDist:
+                        smallestDist = minDistance
+                        closestObj = obstacle
+            for enemy in app.map[app.mapRow][app.mapCol].enemies:
+                if lineInRectangle((app.charX, app.charY), (event.x, event.y), enemy.getBounds):
+                    enemX1, enemY1, enemX2, enemY2 = (enemy.getBounds())
+                    minDistance = min(distance(app.charX, app.charY, enemX1, enemY1), distance(app.charX, app.charY, enemX2, enemY2),
+                                    distance(app.charX, app.charY, enemX1, enemY2), distance(app.charX, app.charY, enemX2, enemY1))
+                    if minDistance < smallestDist:
+                        smallestDist = minDistance
+                        closestObj = enemy
+            closestObj.hitPoints -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
+        elif app.charStats[app.currChar]['attType'] == 'sweep':
+            for obstacle, x, y in app.map[app.mapRow][app.mapCol].obstacles:
+                if distance(app.charX, app.charY, x, y) <= 30:
+                    obstacle.hitPoints -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
+            for enemy in app.map[app.mapRow][app.mapCol].enemies:
+                if distance(app.charX, app.charY, enemy.x, enemy.y) <= 30:
+                    enemy.hitPoints -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
+        else:
+            return #Finish this
+
 
 def generateMapApp(app):
     seed = app.getUserInput('Enter a seed here! Leave blank for a random seed')
@@ -214,10 +251,16 @@ def drawMap(app, canvas):
         image = ImageTk.PhotoImage(obstacle.imageFile)
         canvas.create_image(x, y, image = image)
 
+def drawEnemies(app, canvas):
+    for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
+        image = ImageTk.PhotoImage(enemy.imageFile)
+        canvas.create_image(enemy.x, enemy.y, image = image)
+
 def redrawAll(app, canvas):
     if app.mapCreation:
         drawMapCreationScreen(app, canvas)
     if app.normalPlay:
+        drawEnemies(app, canvas)
         drawMap(app, canvas)
         drawFigure(app, canvas)
 
