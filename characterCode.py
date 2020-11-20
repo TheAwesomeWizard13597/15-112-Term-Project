@@ -64,6 +64,7 @@ def charStats(char):
     exec('stats = ' +  char + 'Stats()\nprint(locals())', globals(), ldict)
     stats = ldict['stats']
     stats['luck'] = random.randint(0, 10)
+    stats['dirFaced'] = 'up'
     return stats
 
 #Character 1 is imagined to be a larger male, with high strength
@@ -74,7 +75,7 @@ def char0Stats():
     stats['constitution'] = 6
     stats['dexterity'] = 4
     stats['intelligence'] = 3
-    stats['ranged'] = False
+    stats['attType'] = 'sweep'
     stats['hitpoints'] = 120
     return stats
 
@@ -86,7 +87,7 @@ def char1Stats():
     stats['constitution'] = 5
     stats['dexterity'] = 6
     stats['intelligence'] = 10
-    stats['ranged'] = True
+    stats['attType'] = 'magic'
     stats['hitpoints'] = 90
     return stats
 
@@ -99,7 +100,7 @@ def char2Stats():
     stats['constitution'] = 5
     stats['intelligence'] = 6
     stats['dexterity'] = 8
-    stats['ranged'] = True
+    stats['attType'] = 'ranged'
     stats['hitpoints'] = 100
     return stats
 
@@ -111,7 +112,7 @@ def char3Stats():
     stats['intelligence'] = 7
     stats['dexterity'] = 7
     stats['constitution'] = 4
-    stats['ranged'] = False
+    stats['attType'] = 'stab'
     stats['hitpoints'] = 120
     return stats
 
