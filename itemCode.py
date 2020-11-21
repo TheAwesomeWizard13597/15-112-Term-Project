@@ -2,6 +2,23 @@ from dataclasses import make_dataclass #Testing testing testing
 import pandas as pd
 import os, PIL.Image
 
+
+def getItemDrops(app):
+    app.drops = {'junk': list(app.junkItems.values()), 'uncommon': [], 'rare': []}
+    app.rareProbability = 5
+    app.uncommonProbability = 25
+    for item in app.weaponItems.values():
+        if item.rarity == 1:
+            app.drops['uncommon'].append(item)
+        elif item.rarity == 2:
+            app.drops['rare'].append(item)
+    for item in app.armorItems.values():
+        if item.rarity == 1:
+            app.drops['uncommon'].append(item)
+        elif item.rarity == 2:
+            app.drops['rare'].append(item)
+
+
 weaponItem = make_dataclass('weaponItem', ['name', 'strength', 'damageType', 'durability',
                                          'special', 'rarity', 'value', 'amount','imageSource',
                                         'enchantment'])

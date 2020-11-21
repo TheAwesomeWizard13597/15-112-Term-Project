@@ -4,6 +4,19 @@ import random, copy
 import PIL.Image
 
 
+def generateMapApp(app):
+    seed = app.getUserInput('Enter a seed here! Leave blank for a random seed')
+    app.map = mapData(app.size, app.width, app.height, seed = seed)
+    if app.size == 'large':
+        app.mapRow = app.mapCol = 4
+    elif app.size == 'medium':
+        app.mapRow = app.mapCol = 3
+    else:
+        app.mapRow = app.mapCol = 2
+    app.mapCreation = False
+    app.normalPlay = True
+
+
 class obstacle():
     def __init__(self, name, height, width, imageFile, hitPoints, drops):
         self.height = height
