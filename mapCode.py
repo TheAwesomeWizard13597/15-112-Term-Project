@@ -1,5 +1,6 @@
 from helpfulFunctions import *
 from itemCode import *
+from enemyCode import *
 import random, copy
 import PIL.Image
 
@@ -54,7 +55,7 @@ def generateEmptyMap(size):
 class chunk():
     def __init__(self, width, height, seed):
         self.obstacles = generateChunkObstacles(width, height, seed)
-        self.enemies = []
+        self.enemies = generateEnemies(width, height, seed)
         self.objectives = []
         self.treasure = []
 
@@ -77,8 +78,31 @@ def getObstacles():
     smallTree = obstacle('small tree', 50, 50, obstacleImages['rock'].resize((50, 50)), 10, junkItems['wood'])
     return (largeRock, mediumRock, smallRock, largeTree, mediumTree, smallTree)
 
+def generateEnemies(width, height, seed):
+    random.seed(a = seed)
+    enemies = []
+    enemyList = getEnemies()
+    numEnemies = random.randint(1, 3)
+    while len(enemies) <= numEnemies:
+        xPos = random.randint(0, width)
+        yPos = random.randint(0, height)
+        tempEnemy = copy.deepcopy(random.choice(enemyList))
+        tempEnemy.setInitialPos(xPos, yPos)
+        isLegalObstacle = True
+        for pos in tempEnemy.getBounds():
+            if pos < 0 or pos > max(width, height):
+                isLegalObstacle = False
+                break
+        for enemy in enemies:
+            if rectangleIntersect(enemy.getBounds(), tempEnemy.getBounds()):
+                isLegalObstacle = False
+        if isLegalObstacle:
+            enemies.append(tempEnemy)
+    return enemies
+
+
+
 def generateChunkObstacles(width, height, seed):
-    print('chunk generating!')
     obstacleLocations = []
     numObstacles = random.randint(1, 10)
     obstacles = getObstacles()
