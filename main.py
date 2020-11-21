@@ -114,7 +114,6 @@ def mousePressed(app, event):
             else:
                 app.map.generatedMap[app.mapRow][app.mapCol].enemies.remove(elem)
 
-
 def defineMoveType(app):
     if app.pickUp:
         app.moveType = 'pickUp'
@@ -161,6 +160,11 @@ def charAnimation(app):
     app.currFrame = app.charAnimCount % len(app.charAnimations[app.currChar][app.moveType])
     app.charAnimCount += 1
 
+def enemAnimation(app):
+    for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
+        if enemy.currFrame > len(enemy.frames[enemy.moveType]):
+            enemy.reset()
+        enemy.currFrame = (enemy.currFrame + 1) % len(enemy.moveType)
 
 
 def redrawAll(app, canvas):
@@ -199,7 +203,8 @@ def drawMap(app, canvas):
 
 def drawEnemies(app, canvas):
     for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
-        image = ImageTk.PhotoImage(enemy.imageFile)
+        print(enemy.currFrame, enemy.frames[enemy.currFrame])
+        image = ImageTk.PhotoImage(enemy.frames[enemy.currFrame])
         canvas.create_image(enemy.x, enemy.y, image = image)
 
         
