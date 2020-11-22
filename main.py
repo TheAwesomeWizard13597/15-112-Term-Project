@@ -112,6 +112,7 @@ def mousePressed(app, event):
             if isinstance(elem, tuple):
                 app.map.generatedMap[app.mapRow][app.mapCol].obstacles.remove(elem)
             else:
+                print(elem)
                 app.map.generatedMap[app.mapRow][app.mapCol].enemies.remove(elem)
 
 def defineMoveType(app):
@@ -150,29 +151,30 @@ def itemDrop(app):
 def timerFired(app):
     if app.normalPlay:
         charAnimation(app)
+        enemAnimation(app)
 
 
 def charAnimation(app):
     if app.charAnimCount >= len(app.charAnimations[app.currChar][app.moveType]):
-        print('resetting!')
         resetAnimations(app)
         defineMoveType(app)
-    app.currFrame = app.charAnimCount % len(app.charAnimations[app.currChar][app.moveType])
+    app.currFrame = (app.charAnimCount % len(app.charAnimations[app.currChar][app.moveType]))
     app.charAnimCount += 1
 
 def enemAnimation(app):
     for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
-        if enemy.currFrame > len(enemy.frames[enemy.moveType]):
+        if enemy.currFrame >= len(enemy.frames[enemy.moveType]) - 1:
             enemy.reset()
-        enemy.currFrame = (enemy.currFrame + 1) % len(enemy.moveType)
+        else:
+            enemy.currFrame += 1
 
 
 def redrawAll(app, canvas):
     if app.mapCreation:
         drawMapCreationScreen(app, canvas)
     if app.normalPlay:
-        drawEnemies(app, canvas)
         drawMap(app, canvas)
+        drawEnemies(app, canvas)
         drawFigure(app, canvas)
 
 def drawMapCreationScreen(app, canvas):
@@ -203,9 +205,9 @@ def drawMap(app, canvas):
 
 def drawEnemies(app, canvas):
     for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
-        print(enemy.currFrame, enemy.frames[enemy.currFrame])
-        image = ImageTk.PhotoImage(enemy.frames[enemy.currFrame])
+        image = ImageTk.PhotoImage(enemy.frames[enemy.moveType][enemy.currFrame])
         canvas.create_image(enemy.x, enemy.y, image = image)
+        print(image, enemy.currFrame)
 
         
 '''

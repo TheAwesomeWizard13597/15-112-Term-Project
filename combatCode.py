@@ -28,8 +28,8 @@ def attack(app):
                     destroyed.append((obstacle, x, y))
         for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
             if lineInRectangle((app.charX, app.charY), (event.x, event.y), enemy.getBounds()):
-                enemy.hitPoints -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
-                if enemy.hitPoints <= 0:
+                enemy.stats['hitpoints'] -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
+                if enemy.stats['hitpoints'] <= 0:
                     destroyed.append(enemy)
         return destroyed
     elif app.charStats[app.currChar]['attType'] == 'magic':
@@ -73,8 +73,8 @@ def attack(app):
                     destroyed.append((obstacle, x, y))
         for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
             if distance(app.charX, app.charY, enemy.x, enemy.y) <= 30:
-                enemy.hitPoints -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
-                if enemy.hitPoints <= 0:
+                enemy.stats['hitpoints'] -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
+                if enemy.stats['hitpoints'] <= 0:
                     destroyed.append(enemy)
     else: pass
     return destroyed

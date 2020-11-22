@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import PIL
 
 class Enemy(object):
     def __init__(self, x, y, frames, statistics):
@@ -25,6 +26,7 @@ class Enemy(object):
 
     def reset(self):
         self.moveType = 'idle'
+        self.currFrame = 0
 
     def attack(self):
         self.moveType = 'attack'
@@ -40,13 +42,16 @@ def getEnemies():
 def getFrames(name):
     frames = dict()
     dir = 'enemies/images/' + name
-    for moveType in dir:
-        frames[moveType] = []
-        for frame in dir + '/' + moveType:
-            if frame.split('.')[-1] == 'png':
-                pathName = dir + '/' + moveType + '/' + frame
-                image = PIL.Image.open(pathName)
-                frames[moveType].append(image)
-    return frame
+    for moveType in os.listdir(dir):
+        if moveType.split('.')[-1] != 'ini':
+
+            frames[moveType] = []
+            for frame in os.listdir(dir + '/' + moveType):
+                if frame.split('.')[-1] == 'png':
+                    pathName = dir + '/' + moveType + '/' + frame
+                    image = PIL.Image.open(pathName)
+                    resziedImage = image.resize((100, 100))
+                    frames[moveType].append(resziedImage)
+    return frames
 
 print(getEnemies())

@@ -84,8 +84,8 @@ def generateEnemies(width, height, seed):
     enemyList = getEnemies()
     numEnemies = random.randint(1, 3)
     while len(enemies) <= numEnemies:
-        xPos = random.randint(0, width)
-        yPos = random.randint(0, height)
+        xPos = random.randint(0, width) + 300
+        yPos = random.randint(0, height) + 300
         tempEnemy = copy.deepcopy(random.choice(enemyList))
         tempEnemy.setInitialPos(xPos, yPos)
         isLegalObstacle = True
@@ -96,6 +96,7 @@ def generateEnemies(width, height, seed):
         for enemy in enemies:
             if rectangleIntersect(enemy.getBounds(), tempEnemy.getBounds()):
                 isLegalObstacle = False
+                break
         if isLegalObstacle:
             enemies.append(tempEnemy)
     return enemies
