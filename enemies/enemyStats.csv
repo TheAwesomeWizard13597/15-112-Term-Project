@@ -1,2 +1,2 @@
-Enemy,hitpoints,strength,constitution,dexterity,intelligence,attType
-test,1000,5,3,4,4,sweep
+Enemy,hitpoints,strength,constitution,dexterity,intelligence,attType,weapon
+test,10,5,3,4,4,sweep,sword
