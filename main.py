@@ -13,18 +13,17 @@ import random, threading, ctypes, time, wave
 
 
         
-        
 def appStarted(app):
     #Movement Variables
     app.charX = app.width / 2
     app.charY = app.height / 2
     app.speed = 5
-
+    print('flag0')
     app.charAnimations, app.charStats = getCharacters()
     app.charWidth = app.width // 3
     app.charHeight = app.height // 3
     app.currChar = 'char0'
-
+    print('flag1')
     app.timerDelay = 500
     getAppState(app)
     resetAnimations(app)
@@ -34,10 +33,20 @@ def appStarted(app):
     app.equippedWeapon = app.weaponItems['sword']
     app.armorItems = getArmorItems()     
     app.junkItems = getJunkItems()
+    print('flag2')
     getItemDrops(app)
-
+    print('flag3')
     app.mapCreationOffset = app.height / 6
+    print('done!')
     pass
+
+def getAppState(app):
+    app.charSelect = False
+    app.isPaused = False
+    app.isDeath = False
+    app.testingMode = False
+    app.normalPlay = False
+    app.mapCreation = True
 
 def resetAnimations(app):
 
@@ -51,7 +60,7 @@ def resetAnimations(app):
 
 def keyPressed(app, event):
     if app.testingMode:
-        audioThread.testFunc()
+        enemyMove(app, 15, app.map.generatedMap[app.mapRow][app.mapCol].enemies[0])
     if app.isPaused:
         if event.key == 'p':
             app.isPaused = not app.isPaused
@@ -107,7 +116,7 @@ def mousePressed(app, event):
         app.i = 0
         app.currFrame = 0
         defineMoveType(app)
-        destroyed = attack(app)
+        destroyed = playerAttack(app)
         for elem in destroyed:
             if isinstance(elem, tuple):
                 app.map.generatedMap[app.mapRow][app.mapCol].obstacles.remove(elem)
@@ -172,7 +181,7 @@ def enemAnimation(app):
 def redrawAll(app, canvas):
     if app.mapCreation:
         drawMapCreationScreen(app, canvas)
-    if app.normalPlay:
+    if app.normalPlay or app.testingMode:
         drawMap(app, canvas)
         drawEnemies(app, canvas)
         drawFigure(app, canvas)
@@ -207,7 +216,7 @@ def drawEnemies(app, canvas):
     for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
         image = ImageTk.PhotoImage(enemy.frames[enemy.moveType][enemy.currFrame])
         canvas.create_image(enemy.x, enemy.y, image = image)
-        print(image, enemy.currFrame)
+
 
         
 '''
@@ -239,5 +248,4 @@ class audioThread(threading.Thread):
 audioThread = audioThread(2)
 audioThread.start()'''
 runApp(width = 1000, height = 1000)
-time.sleep(2)
 

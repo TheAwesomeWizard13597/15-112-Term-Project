@@ -15,7 +15,7 @@ def generateMapApp(app):
     else:
         app.mapRow = app.mapCol = 2
     app.mapCreation = False
-    app.normalPlay = True
+    app.testingMode = True
 
 
 class obstacle():
