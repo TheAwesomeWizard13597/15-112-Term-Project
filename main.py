@@ -28,7 +28,7 @@ def appStarted(app):
     getAppState(app)
     resetAnimations(app)
 
-
+    app.obstacles = getObstacles()
     app.weaponItems = getWeaponItems()
     app.equippedWeapon = app.weaponItems['sword']
     app.armorItems = getArmorItems()     
@@ -38,6 +38,7 @@ def appStarted(app):
     print('flag3')
     app.mapCreationOffset = app.height / 6
     print('done!')
+    app.testCount = 0
     pass
 
 def getAppState(app):
@@ -60,7 +61,10 @@ def resetAnimations(app):
 
 def keyPressed(app, event):
     if app.testingMode:
-        enemyMove(app, 15, app.map.generatedMap[app.mapRow][app.mapCol].enemies[0])
+        if event.key == 'c':
+            app.map.generatedMap[app.mapRow][app.mapCol].obstacles.clear()
+        else:
+            enemyMove(app)
     if app.isPaused:
         if event.key == 'p':
             app.isPaused = not app.isPaused
@@ -101,6 +105,14 @@ def keyPressed(app, event):
         makeMove(app, dx, dy)
 
 def mousePressed(app, event):
+    if app.testingMode:
+        print(event.x, event.y)
+        if app.testCount % 2 == 0:
+            app.map.generatedMap[app.mapRow][app.mapCol].obstacles.append((app.obstacles[1], event.x, event.y))
+        else:
+            app.map.generatedMap[app.mapRow][app.mapCol].enemies[0].x = event.x
+            app.map.generatedMap[app.mapRow][app.mapCol].enemies[0].y = event.y
+        app.testCount += 1
     if app.mapCreation:
         if event.y > app.mapCreationOffset:
             if event.x < app.width / 3:
@@ -135,11 +147,21 @@ def defineMoveType(app):
         app.moveType = 'idle'
 
 def makeMove(app, dx, dy):
-    if (app.charX > app.width or app.charX < 0 or app.charY > app.height   
-        or app.charY < 0):
-        return
-    app.charX += dx
-    app.charY += dy
+    if app.charX + dx >= app.width:
+        app.mapRow += 1
+        app.charX = 0
+    elif app.charX - dx <= 0:
+        app.mapRow -= 1
+        app.charX = app.width
+    elif app.charY + dy >= app.height:
+        app.mapCol -= 1
+        app.charY = 0
+    elif app.charY - dy <= 0:
+        app.mapCol -= 1
+        app.charY = app.height
+    else:
+        app.charX += dx
+        app.charY += dy
         
 def itemDrop(app):
     itemProbability = random.randint(0, 100)

@@ -60,33 +60,35 @@ def distance(x0, y0, x1, y1):
 #Takes two tuples of four elements each and returns if the rectangles made
 #By the tuples of coordinates intersect
 def rectangleIntersect(rect1Dim, rect2Dim):
-    rect1x0, rect1y0, rect1x1, rect1y1 = rect1Dim
-    rect2x0, rect2y0, rect2x1, rect2y1 = rect2Dim
-    if rect1x0 < rect2x0 < rect1x1 and rect1y0 < rect2y0 < rect1y1:
-        return True
-    if rect1x0 < rect2x1 < rect1x1 and rect1y0 < rect2y0 < rect1y1:
-        return True
-    if rect1x0 < rect2x0 < rect1x1 and rect1y0 < rect2y1 < rect1y1:
-        return True
-    if rect1x0 < rect2x1 < rect1x1 and rect1y0 < rect2y1 < rect1y1:
-        return True
-    return False
+    rect1xR, rect1yB, rect1xL, rect1yT = rect1Dim
+    rect2xR, rect2yB, rect2xL, rect2yT = rect2Dim
+    if rect1xR <= rect2xL or rect2xR <= rect1xL:
+        return False
+    if rect1yB <= rect2yT or rect2yB <= rect1yT:
+        return False
+    return True
 
 #Takes three tuples, lineStart and lineEnd are (x, y) coordinates, rectDim has four elements
 def lineInRectangle(lineStart, lineEnd, rectDim):
-    rectx0, recty0, rectx1, recty1 = rectDim
-    xCoords = [lineStart[0], lineEnd[0]]
-    yCoords = [lineStart[1], lineEnd[1]]
-    coefficients = np.polyfit(xCoords, yCoords, 1)
-    if rectx0 * coefficients[0] + coefficients[1] > recty0:
-        checker = 1
-    else:
-        checker = -1
-
-    for x, y in [(rectx0, recty1), (rectx1, recty1), (rectx1, recty0)]:
-        if x * coefficients[0] + coefficients[1] < y and checker == 1:
-            return True
-        if x * coefficients[0] + coefficients[1] > y and checker == -1:
+    # rectx0, recty0, rectx1, recty1 = rectDim
+    # xCoords = [lineStart[0], lineEnd[0]]
+    # yCoords = [lineStart[1], lineEnd[1]]
+    # coefficients = np.polyfit(xCoords, yCoords, 1)
+    # if rectx0 * coefficients[0] + coefficients[1] > recty0:
+    #     checker = 1
+    # else:
+    #     checker = -1
+    #
+    # for x, y in [(rectx0, recty1), (rectx1, recty1), (rectx1, recty0)]:
+    #     if x * coefficients[0] + coefficients[1] < y and checker == 1:
+    #         return True
+    #     if x * coefficients[0] + coefficients[1] > y and checker == -1:
+    #         return True
+    # return False
+    dx = (lineStart[0] - lineEnd[0])/10
+    dy = (lineStart[1] - lineEnd[1])/10
+    for i in range(10):
+        if pointInRectangle((lineStart[0] + dx*i, lineStart[1] + dy*i), rectDim):
             return True
     return False
 
