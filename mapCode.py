@@ -15,7 +15,7 @@ def generateMapApp(app):
     else:
         app.mapRow = app.mapCol = 2
     app.mapCreation = False
-    app.testingMode = True
+    app.normalPlay = True
 
 
 class obstacle():
@@ -79,7 +79,7 @@ def getObstacles():
     return (largeRock, mediumRock, smallRock, largeTree, mediumTree, smallTree)
 
 def generateEnemies(width, height, seed):
-    random.seed(a = seed)
+    #random.seed(a = seed)
     enemies = []
     enemyList = getEnemies()
     numEnemies = random.randint(1, 3)
@@ -108,7 +108,7 @@ def generateChunkObstacles(width, height, seed):
     numObstacles = random.randint(1, 10)
     obstacles = getObstacles()
     obstacleCounts = dict()
-    random.seed(a = seed)
+    #random.seed(a = seed)
     while len(obstacleLocations) < numObstacles:
         obstacleXPos = random.randint(0, width)
         obstacleYPos = random.randint(0, height)
@@ -141,7 +141,7 @@ def generateMap(emptyMap, width, height, seed):
                 randomizer = random.randint(0, seed)
             else:
                 randomizer = random.randint(seed, 0)
-            generatedMap[row][col] = chunk(width, height, seed)
+            generatedMap[row][col] = chunk(width, height, seed/randomizer)
     return generatedMap
             
 

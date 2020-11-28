@@ -24,9 +24,9 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Collab/collab9/Code.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/main.py" />
   </component>
-  <component name="RunManager" selected="Python.Main Code">
+  <component name="RunManager" selected="Python.TestCode">
     <configuration name="Code" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Term Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -169,26 +169,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="703" y="322" key="#com.intellij.fileTypes.FileTypeChooser/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1605455648950" />
-    <state x="698" y="233" key="FileChooserDialogImpl" timestamp="1606180269993">
+    <state x="698" y="233" key="FileChooserDialogImpl" timestamp="1606516221070">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="698" y="233" key="FileChooserDialogImpl/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1606180269993" />
-    <state width="1899" height="213" key="GridCell.Tab.0.bottom" timestamp="1606446633823">
+    <state x="698" y="233" key="FileChooserDialogImpl/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1606516221070" />
+    <state width="1899" height="213" key="GridCell.Tab.0.bottom" timestamp="1606528163701">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="213" key="GridCell.Tab.0.bottom/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1606446633823" />
-    <state width="1899" height="213" key="GridCell.Tab.0.center" timestamp="1606446633823">
+    <state width="1899" height="213" key="GridCell.Tab.0.bottom/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1606528163701" />
+    <state width="1899" height="213" key="GridCell.Tab.0.center" timestamp="1606528163701">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="213" key="GridCell.Tab.0.center/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1606446633823" />
-    <state width="1899" height="213" key="GridCell.Tab.0.left" timestamp="1606446633823">
+    <state width="1899" height="213" key="GridCell.Tab.0.center/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1606528163701" />
+    <state width="1899" height="213" key="GridCell.Tab.0.left" timestamp="1606528163701">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="213" key="GridCell.Tab.0.left/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1606446633823" />
-    <state width="1899" height="213" key="GridCell.Tab.0.right" timestamp="1606446633823">
+    <state width="1899" height="213" key="GridCell.Tab.0.left/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1606528163701" />
+    <state width="1899" height="213" key="GridCell.Tab.0.right" timestamp="1606528163701">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="213" key="GridCell.Tab.0.right/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1606446633823" />
+    <state width="1899" height="213" key="GridCell.Tab.0.right/-1920.0.1920.1040/1920.0.1080.1880/0.0.1920.1040@0.0.1920.1040" timestamp="1606528163701" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605304509124">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -216,7 +216,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/helpfulFunctions.py</url>
-          <line>81</line>
+          <line>84</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>

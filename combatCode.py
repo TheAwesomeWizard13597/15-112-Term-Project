@@ -17,12 +17,14 @@ def doesHit(charX, charY, enemyX, enemyY, currObstaclePositions):
     slope = (enemyY - charY) / (enemyX - charX)
     for (x, y) in currObstaclePositions:
 '''
-def playerAttack(app):
+def playerAttack(app, event):
     destroyed = []
     if app.charStats[app.currChar]['attType'] == 'magic':
+        print('here!')
 
         for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
             if lineInRectangle((app.charX, app.charY), (event.x, event.y), obstacle.getBounds(x, y)):
+                print('here!')
                 obstacle.hitPoints -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
                 if obstacle.hitPoints <= 0:
                     destroyed.append((obstacle, x, y))
@@ -31,6 +33,7 @@ def playerAttack(app):
                 enemy.stats['hitpoints'] -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
                 if enemy.stats['hitpoints'] <= 0:
                     destroyed.append(enemy)
+        print(destroyed)
         return destroyed
     elif app.charStats[app.currChar]['attType'] == 'ranged':
         smallestDist = None
@@ -77,5 +80,6 @@ def playerAttack(app):
                 if enemy.stats['hitpoints'] <= 0:
                     destroyed.append(enemy)
     else: pass
+    print(destroyed)
     return destroyed
 
