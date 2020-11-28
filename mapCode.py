@@ -55,7 +55,7 @@ def generateEmptyMap(size):
 class chunk():
     def __init__(self, width, height, seed):
         self.obstacles = generateChunkObstacles(width, height, seed)
-        self.enemies = generateEnemies(width, height, seed)
+        self.enemies = generateEnemies(width, height, seed, self.obstacles)
         self.objectives = []
         self.treasure = []
 
@@ -78,7 +78,7 @@ def getObstacles():
     smallTree = obstacle('small tree', 50, 50, obstacleImages['rock'].resize((50, 50)), 10, junkItems['wood'])
     return (largeRock, mediumRock, smallRock, largeTree, mediumTree, smallTree)
 
-def generateEnemies(width, height, seed):
+def generateEnemies(width, height, seed, obstacles):
     #random.seed(a = seed)
     enemies = []
     enemyList = getEnemies()
@@ -95,6 +95,10 @@ def generateEnemies(width, height, seed):
                 break
         for enemy in enemies:
             if rectangleIntersect(enemy.getBounds(), tempEnemy.getBounds()):
+                isLegalObstacle = False
+                break
+        for obstacle, x, y in obstacles:
+            if rectangleIntersect(tempEnemy.getBounds(), obstacle.getBounds(x, y)):
                 isLegalObstacle = False
                 break
         if isLegalObstacle:

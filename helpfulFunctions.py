@@ -98,10 +98,12 @@ def lineInRectangle2(lineStart, lineEnd, rectDim):
     return False
 
 def pointInRectangle(pointCoords, rectCoords):
-    rectx0, recty0, rectx1, recty1 = rectCoords
-    if rectx0 < pointCoords[0] < rectx1 and recty0 < pointCoords[1] < recty1:
-        return True
-    return False
+    rectxR, rectyB, rectxL, rectyT = rectCoords
+    if rectxR < pointCoords[0] or rectxL > pointCoords[0]:
+        return False
+    if rectyB < pointCoords[1] or rectyT > pointCoords[1]:
+        return False
+    return True
 
     
 

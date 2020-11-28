@@ -23,7 +23,8 @@ def appStarted(app):
     app.charWidth = app.width // 3
     app.charHeight = app.height // 3
     app.currChar = 'char0'
-    app.timerDelay = 500
+    app.timerDelay = 50
+    app.timerCount = 0
     getAppState(app)
     resetAnimations(app)
 
@@ -57,12 +58,8 @@ def resetAnimations(app):
     app.currFrame = 0
 
 def keyPressed(app, event):
-    if app.testingMode:
-        if event.key == 'c':
-            app.map.generatedMap[app.mapRow][app.mapCol].obstacles.clear()
-        else:
-            enemyMove(app)
-        app.arrows.append(Arrow(app.width / 2, app.height / 2, 10, 10))
+
+
     if app.isPaused:
         if event.key == 'p':
             app.isPaused = not app.isPaused
@@ -71,6 +68,19 @@ def keyPressed(app, event):
         return
     if app.charSelect:
         return
+    if event.key == '`':
+        app.testingMode = not app.testingMode
+        app.normalPlay = not app.normalPlay
+    if app.testingMode:
+        if event.key == 'c':
+            app.map.generatedMap[app.mapRow][app.mapCol].obstacles.clear()
+        elif event.key == 'a':
+            app.arrows.append(Arrow(app.width / 2, app.height / 2, 10, 10, 'player'))
+        elif event.key == 's':
+            moveArrow(app)
+        else:
+            enemyMove(app)
+
     if app.normalPlay:
         dx = 0
         dy = 0
@@ -102,9 +112,18 @@ def keyPressed(app, event):
 
         makeMove(app, dx, dy)
 
+def pointInObstacle(app, event):
+    thowo = False
+    for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
+        if pointInRectangle((event.x, event.y), obstacle.getBounds(x, y)):
+            thowo = True
+        print(f'{(event.x, event.y)}, {obstacle.getBounds(x, y)}')
+    print(f'thowo = {thowo}')
+
 def mousePressed(app, event):
     if app.testingMode:
         print(event.x, event.y)
+        print(pointInObstacle(app, event))
         if app.testCount % 2 == 0:
             app.map.generatedMap[app.mapRow][app.mapCol].obstacles.append((app.obstacles[1], event.x, event.y))
         else:
@@ -187,8 +206,11 @@ def itemDrop(app):
 
 def timerFired(app):
     if app.normalPlay:
-        charAnimation(app)
-        enemAnimation(app)
+        moveArrow(app)
+        if app.timerCount % 4 == 0:
+            charAnimation(app)
+            enemAnimation(app)
+        app.timerCount += 1
 
 
 def charAnimation(app):
@@ -251,9 +273,7 @@ def drawArrows(app, canvas):
     for arrow in app.arrows:
         rotatedImage = arrow.image.rotate(arrow.angleFace * (180/math.pi), expand = True)
         image = ImageTk.PhotoImage(rotatedImage)
-        image2 = ImageTk.PhotoImage(arrow.image)
         canvas.create_image(arrow.x, arrow.y, image = image)
-        canvas.create_image(arrow.x, arrow.y, image=image2)
 
 
         
