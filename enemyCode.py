@@ -7,7 +7,7 @@ from combatCode import *
 def enemyMove(app):
     for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
         if enemy.stats['attType'] in ['sweep', 'stab']:
-            if distance(enemy.x, enemy.y, app.charX, app.charY) <= 10:
+            if distance(enemy.x, enemy.y, app.charX, app.charY) <= 100:
                 enemy.attack(app)
             else:
                 meleeEnemyMove(app, 15, enemy)
@@ -17,7 +17,7 @@ def enemyMove(app):
                 rangedEnemyMove(app, 15, enemy)
                 attack = False
             for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
-                if lineInRectangle((enemy.x, enemy.y), (app.charX, app.charY), obstacle.getBounds(x, y)):
+                if lineInRectangle2((enemy.x, enemy.y), (app.charX, app.charY), obstacle.getBounds(x, y)):
                     rangedEnemyMove(app, 15, enemy)
                     attack = False
             if attack:
@@ -55,6 +55,7 @@ class Enemy(object):
 
     def attack(self, app):
         self.moveType = 'attack'
+        destroyed = []
         if self.stats['attType'] == 'magic':
             for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
                 if lineInRectangle((app.charX, app.charY), (self.x, self.y), obstacle.getBounds(x, y)):

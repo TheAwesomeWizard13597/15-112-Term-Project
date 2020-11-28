@@ -5,7 +5,8 @@ from itemCode import *
 from testFunctions import *
 #from draw import *
 from combatCode import * 
-from mapCode import * 
+from mapCode import *
+from arrowCode import *
 import random, threading, ctypes, time, wave
 #from pydub import AudioSegment
 #from pydub.playback import play
@@ -18,12 +19,10 @@ def appStarted(app):
     app.charX = app.width / 2
     app.charY = app.height / 2
     app.speed = 5
-    print('flag0')
     app.charAnimations, app.charStats = getCharacters()
     app.charWidth = app.width // 3
     app.charHeight = app.height // 3
     app.currChar = 'char0'
-    print('flag1')
     app.timerDelay = 500
     getAppState(app)
     resetAnimations(app)
@@ -33,11 +32,9 @@ def appStarted(app):
     app.equippedWeapon = app.weaponItems['sword']
     app.armorItems = getArmorItems()     
     app.junkItems = getJunkItems()
-    print('flag2')
+    app.arrows = []
     getItemDrops(app)
-    print('flag3')
     app.mapCreationOffset = app.height / 6
-    print('done!')
     app.testCount = 0
     pass
 
@@ -65,6 +62,7 @@ def keyPressed(app, event):
             app.map.generatedMap[app.mapRow][app.mapCol].obstacles.clear()
         else:
             enemyMove(app)
+        app.arrows.append(Arrow(app.width / 2, app.height / 2, 10, 10))
     if app.isPaused:
         if event.key == 'p':
             app.isPaused = not app.isPaused
@@ -128,7 +126,7 @@ def mousePressed(app, event):
         app.i = 0
         app.currFrame = 0
         defineMoveType(app)
-        destroyed = playerAttack(app)
+        destroyed = playerAttack(app, event)
         for elem in destroyed:
             if isinstance(elem, tuple):
                 app.map.generatedMap[app.mapRow][app.mapCol].obstacles.remove(elem)
@@ -147,21 +145,29 @@ def defineMoveType(app):
         app.moveType = 'idle'
 
 def makeMove(app, dx, dy):
+    legalMove = True
     if app.charX + dx >= app.width:
         app.mapRow += 1
-        app.charX = 0
+        app.charX = 10
     elif app.charX - dx <= 0:
         app.mapRow -= 1
-        app.charX = app.width
+        app.charX = app.width - 10
     elif app.charY + dy >= app.height:
         app.mapCol -= 1
-        app.charY = 0
+        app.charY = 10
     elif app.charY - dy <= 0:
         app.mapCol -= 1
-        app.charY = app.height
-    else:
+        app.charY = app.height - 10
+    for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
+        if rectangleIntersect((app.charX + 50, app.charY + 50, app.charX - 50, app.charY - 50), obstacle.getBounds(x, y)):
+            legalMove = False
+    if legalMove:
         app.charX += dx
         app.charY += dy
+    else:
+        app.charX -= dx
+        app.charY -= dy
+    print(app.mapRow, app.mapCol)
         
 def itemDrop(app):
     itemProbability = random.randint(0, 100)
@@ -207,7 +213,9 @@ def redrawAll(app, canvas):
         drawMap(app, canvas)
         drawEnemies(app, canvas)
         drawFigure(app, canvas)
-
+        drawArrows(app, canvas)
+    # if app.testingMode:
+    #     drawArrows(app, canvas)
 def drawMapCreationScreen(app, canvas):
     canvas.create_rectangle(0, app.mapCreationOffset, app.width / 3, app.height)
     canvas.create_rectangle(app.width / 3, app.mapCreationOffset, app.width * 2 / 3, app.height)
@@ -238,6 +246,14 @@ def drawEnemies(app, canvas):
     for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
         image = ImageTk.PhotoImage(enemy.frames[enemy.moveType][enemy.currFrame])
         canvas.create_image(enemy.x, enemy.y, image = image)
+
+def drawArrows(app, canvas):
+    for arrow in app.arrows:
+        rotatedImage = arrow.image.rotate(arrow.angleFace * (180/math.pi), expand = True)
+        image = ImageTk.PhotoImage(rotatedImage)
+        image2 = ImageTk.PhotoImage(arrow.image)
+        canvas.create_image(arrow.x, arrow.y, image = image)
+        canvas.create_image(arrow.x, arrow.y, image=image2)
 
 
         

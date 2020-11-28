@@ -1,6 +1,15 @@
 import numpy as np
 from helpfulFunctions import *
+from arrowCode import *
+import PIL.Image
 
+arrow = Arrow(0, 0, 10, 10, 'player')
+print(arrow.point)
+arrow.move()
+print(arrow.point)
+# assert(arrow.angleFace == (math.pi) / 4)
+# print(arrow.width, arrow.height, arrow.angleFace, math.sin(arrow.angleFace), math.cos(arrow.angleFace))
+# print(arrow.getBounds())
 
 
 class Node():
@@ -125,4 +134,4 @@ def main():
     path = astar(maze, start, end)
     print(path)
 
-main()
+#main()

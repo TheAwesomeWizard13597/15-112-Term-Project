@@ -75,7 +75,7 @@ def char0Stats():
     stats['constitution'] = 6
     stats['dexterity'] = 4
     stats['intelligence'] = 3
-    stats['attType'] = 'sweep'
+    stats['attType'] = 'magic'
     stats['hitPoints'] = 120
     return stats
 

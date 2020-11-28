@@ -68,23 +68,28 @@ def rectangleIntersect(rect1Dim, rect2Dim):
         return False
     return True
 
+
+def linefit(x0, x1, y0, y1):
+    pass
 #Takes three tuples, lineStart and lineEnd are (x, y) coordinates, rectDim has four elements
 def lineInRectangle(lineStart, lineEnd, rectDim):
-    # rectx0, recty0, rectx1, recty1 = rectDim
-    # xCoords = [lineStart[0], lineEnd[0]]
-    # yCoords = [lineStart[1], lineEnd[1]]
-    # coefficients = np.polyfit(xCoords, yCoords, 1)
-    # if rectx0 * coefficients[0] + coefficients[1] > recty0:
-    #     checker = 1
-    # else:
-    #     checker = -1
-    #
-    # for x, y in [(rectx0, recty1), (rectx1, recty1), (rectx1, recty0)]:
-    #     if x * coefficients[0] + coefficients[1] < y and checker == 1:
-    #         return True
-    #     if x * coefficients[0] + coefficients[1] > y and checker == -1:
-    #         return True
-    # return False
+    rectx0, recty0, rectx1, recty1 = rectDim
+    xCoords = [lineStart[0], lineEnd[0]]
+    yCoords = [lineStart[1], lineEnd[1]] #bound lines
+    coefficients = np.polyfit(xCoords, yCoords, 1) #Write this myself :)
+    if rectx0 * coefficients[0] + coefficients[1] > recty0:
+        checker = 1
+    else:
+        checker = -1
+
+    for x, y in [(rectx0, recty1), (rectx1, recty1), (rectx1, recty0)]:
+        if x * coefficients[0] + coefficients[1] < y and checker == 1:
+            return True
+        if x * coefficients[0] + coefficients[1] > y and checker == -1:
+            return True
+    return False
+
+def lineInRectangle2(lineStart, lineEnd, rectDim):
     dx = (lineStart[0] - lineEnd[0])/10
     dy = (lineStart[1] - lineEnd[1])/10
     for i in range(10):
