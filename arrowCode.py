@@ -30,7 +30,6 @@ def moveArrow(app):
     for arrow in app.arrows:
         arrow.move()
         arrowRemoved = False
-        print(arrow.point)
         for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
             if pointInRectangle(arrow.point, obstacle.getBounds(x, y)):
                 print('here!')

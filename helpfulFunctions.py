@@ -105,6 +105,9 @@ def pointInRectangle(pointCoords, rectCoords):
         return False
     return True
 
+def midpoint(n1, n2):
+    return ((n1 + n2)/2)
+
     
 
 

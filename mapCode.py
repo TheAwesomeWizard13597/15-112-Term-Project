@@ -17,6 +17,16 @@ def generateMapApp(app):
     app.mapCreation = False
     app.normalPlay = True
 
+def mapCreationMousePressed(app, event):
+    if event.y > app.mapCreationOffset:
+        if event.x < app.width / 3:
+            app.size = 'small'
+        elif event.x < app.width * 2 / 3:
+            app.size = 'medium'
+        else:
+            app.size = 'large'
+    generateMapApp(app)
+
 
 class obstacle():
     def __init__(self, name, height, width, imageFile, hitPoints, drops):

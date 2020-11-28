@@ -8,6 +8,7 @@ def enemyMove(app):
     for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
         if enemy.stats['attType'] in ['sweep', 'stab']:
             if distance(enemy.x, enemy.y, app.charX, app.charY) <= 100:
+                enemy.reset()
                 enemy.attack(app)
             else:
                 meleeEnemyMove(app, 15, enemy)
@@ -21,6 +22,7 @@ def enemyMove(app):
                     rangedEnemyMove(app, 15, enemy)
                     attack = False
             if attack:
+                enemy.reset()
                 enemy.attack(app)
 
 
@@ -71,13 +73,11 @@ class Enemy(object):
 
             for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
                 if distance(self.x, self.y, x, y) <= 100:
-                    print('obstacle!', obstacle.hitPoints)
                     obstacle.hitPoints -= damageCalculator(app.charStats[app.currChar], app.weaponItems[self.stats['weapon']])
                     if obstacle.hitPoints <= 0:
                         destroyed.append((obstacle, x, y))
         else:
             pass
-        print(app.charStats[app.currChar]['hitPoints'])
 
     def getBoundsTestLoc(self, x, y):
         return (x + self.width / 2, y + self.height / 2, x - self.width / 2, y - self.height / 2 )
@@ -129,28 +129,27 @@ def meleeEnemyMove(app, theta, enemy):
         if smallestF == None or f < smallestF:
             smallestF = f
             bestMove = (x, y)
+    if len(possibleMoves) == 0:
+        print(enemy.x, enemy.y)
+        return
     enemy.x = bestMove[0]
     enemy.y = bestMove[1]
-    print(enemy.getBoundsTestLoc(enemy.x, enemy.y))
     enemy.prevMoves.append((int(bestMove[0]), int(bestMove[1])))
 
 def rangedEnemyMove(app, theta, enemy):
     possibleMoves = []
     for i in range(360 // theta):
-        print('flag2')
+
         testX, testY = enemy.x + 10 * math.cos(i * theta), enemy.y + 10 * math.sin(i * theta)
         legalMove = True
         for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
             if (rectangleIntersect(obstacle.getBounds(x, y), enemy.getBoundsTestLoc(testX, testY)) and 0 < testX < app.width and 0 < testY < app.height):
                 legalMove = False
-                print('here!')
         for x, y in enemy.prevMoves:
             if distance(x, y, testX, testY) < 1:
-                print('here2!')
                 legalMove = False
         if legalMove:
             possibleMoves.append((testX, testY))
-    print(possibleMoves)
     if distance(enemy.x, enemy.y, app.charX, app.charY) > 300: #try to get closer
         smallestF = None
         bestMove = None

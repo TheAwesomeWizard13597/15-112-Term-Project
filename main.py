@@ -7,6 +7,7 @@ from testFunctions import *
 from combatCode import * 
 from mapCode import *
 from arrowCode import *
+from testCode import *
 import random, threading, ctypes, time, wave
 #from pydub import AudioSegment
 #from pydub.playback import play
@@ -27,9 +28,11 @@ def appStarted(app):
     app.timerCount = 0
     getAppState(app)
     resetAnimations(app)
+    test(app)
 
     app.obstacles = getObstacles()
     app.weaponItems = getWeaponItems()
+    app.enemies = getEnemies()
     app.equippedWeapon = app.weaponItems['sword']
     app.armorItems = getArmorItems()     
     app.junkItems = getJunkItems()
@@ -72,14 +75,7 @@ def keyPressed(app, event):
         app.testingMode = not app.testingMode
         app.normalPlay = not app.normalPlay
     if app.testingMode:
-        if event.key == 'c':
-            app.map.generatedMap[app.mapRow][app.mapCol].obstacles.clear()
-        elif event.key == 'a':
-            app.arrows.append(Arrow(app.width / 2, app.height / 2, 10, 10, 'player'))
-        elif event.key == 's':
-            moveArrow(app)
-        else:
-            enemyMove(app)
+        testingModeKey(app, event)
 
     if app.normalPlay:
         dx = 0
@@ -122,23 +118,10 @@ def pointInObstacle(app, event):
 
 def mousePressed(app, event):
     if app.testingMode:
-        print(event.x, event.y)
-        print(pointInObstacle(app, event))
-        if app.testCount % 2 == 0:
-            app.map.generatedMap[app.mapRow][app.mapCol].obstacles.append((app.obstacles[1], event.x, event.y))
-        else:
-            app.map.generatedMap[app.mapRow][app.mapCol].enemies[0].x = event.x
-            app.map.generatedMap[app.mapRow][app.mapCol].enemies[0].y = event.y
-        app.testCount += 1
+        mousePressedTest(app, event)
+
     if app.mapCreation:
-        if event.y > app.mapCreationOffset:
-            if event.x < app.width / 3:
-                app.size = 'small'
-            elif event.x < app.width * 2 / 3:
-                app.size = 'medium'
-            else:
-                app.size = 'large'
-        generateMapApp(app)
+        mapCreationMousePressed(app, event)
 
     if app.normalPlay:
         app.charAttack = not app.charAttack
@@ -186,7 +169,6 @@ def makeMove(app, dx, dy):
     else:
         app.charX -= dx
         app.charY -= dy
-    print(app.mapRow, app.mapCol)
         
 def itemDrop(app):
     itemProbability = random.randint(0, 100)
@@ -206,11 +188,15 @@ def itemDrop(app):
 
 def timerFired(app):
     if app.normalPlay:
-        moveArrow(app)
-        if app.timerCount % 4 == 0:
-            charAnimation(app)
-            enemAnimation(app)
-        app.timerCount += 1
+        dostep(app)
+
+def dostep(app):
+    moveArrow(app)
+    enemyMove(app)
+    if app.timerCount % 4 == 0:
+        charAnimation(app)
+        enemAnimation(app)
+    app.timerCount += 1
 
 
 def charAnimation(app):
@@ -236,6 +222,8 @@ def redrawAll(app, canvas):
         drawEnemies(app, canvas)
         drawFigure(app, canvas)
         drawArrows(app, canvas)
+        if app.testingMode:
+            drawTest(app, canvas)
     # if app.testingMode:
     #     drawArrows(app, canvas)
 def drawMapCreationScreen(app, canvas):
@@ -275,7 +263,11 @@ def drawArrows(app, canvas):
         image = ImageTk.PhotoImage(rotatedImage)
         canvas.create_image(arrow.x, arrow.y, image = image)
 
-
+def testingModeKey(app, event):
+    if event.key == 'c':
+        app.map.generatedMap[app.mapRow][app.mapCol].obstacles.clear()
+    elif event.key == 'Space':
+        dostep(app)
         
 '''
 class audioThread(threading.Thread):
