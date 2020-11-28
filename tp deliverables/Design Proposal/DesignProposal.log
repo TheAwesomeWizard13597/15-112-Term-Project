@@ -1,0 +1,176 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.11.9)  28 NOV 2020 12:34
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**"d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/DesignProposal.tex"
+(d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/DesignProposal.tex
+LaTeX2e <2020-10-01> patch level 2
+L3 programming layer <2020-10-27> xparse <2020-03-03> (c:/texlive/2020/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2020/04/10 v1.4m Standard LaTeX document class
+(c:/texlive/2020/texmf-dist/tex/latex/base/size12.clo
+File: size12.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
+)
+\c@part=\count175
+\c@section=\count176
+\c@subsection=\count177
+\c@subsubsection=\count178
+\c@paragraph=\count179
+\c@subparagraph=\count180
+\c@figure=\count181
+\c@table=\count182
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen138
+) (c:/texlive/2020/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2020/09/09 v1.2b Enhanced LaTeX Graphics (DPC,SPQR)
+ (c:/texlive/2020/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks15
+) (c:/texlive/2020/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2020/08/30 v1.4c Standard LaTeX Graphics (DPC,SPQR)
+ (c:/texlive/2020/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+) (c:/texlive/2020/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+ (c:/texlive/2020/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen139
+\Gin@req@width=\dimen140
+) (c:/texlive/2020/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
+\l__kernel_color_stack_int=\count183
+\l__pdf_internal_box=\box47
+) (d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/DesignProposal.aux)
+\openout1 = `DesignProposal.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+ (c:/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count184
+\scratchdimen=\dimen141
+\scratchbox=\box48
+\nofMPsegments=\count185
+\nofMParguments=\count186
+\everyMPshowfont=\toks16
+\MPscratchCnt=\count187
+\MPscratchDim=\dimen142
+\MPnumerator=\count188
+\makeMPintoPDFobject=\count189
+\everyMPtoPDFconversion=\toks17
+) (c:/texlive/2020/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (c:/texlive/2020/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 9.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 9.
+ (d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/DesignProposal.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 2.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 2.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 2.
+)
+\tf@toc=\write3
+\openout3 = `DesignProposal.toc'.
+
+ (d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/DesignProposal.lof)
+\tf@lof=\write4
+\openout4 = `DesignProposal.lof'.
+
+ [1
+
+{c:/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+<char.PNG, id=9, 100.375pt x 100.375pt>
+File: char.PNG Graphic file (type png)
+<use char.PNG>
+Package pdftex.def Info: char.PNG  used on input line 29.
+(pdftex.def)             Requested size: 85.35826pt x 85.36356pt.
+ [1 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/char.PNG>] [2]
+<Capture.png, id=18, 1409.265pt x 639.13782pt>
+File: Capture.png Graphic file (type png)
+<use Capture.png>
+Package pdftex.def Info: Capture.png  used on input line 106.
+(pdftex.def)             Requested size: 284.52756pt x 129.03459pt.
+ [3 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Capture.png>]
+<Storyboard0.PNG, id=23, 677.53125pt x 472.76625pt>
+File: Storyboard0.PNG Graphic file (type png)
+<use Storyboard0.PNG>
+Package pdftex.def Info: Storyboard0.PNG  used on input line 118.
+(pdftex.def)             Requested size: 284.52756pt x 198.53882pt.
+<Storyboard1.PNG, id=24, 653.44125pt x 449.42906pt>
+File: Storyboard1.PNG Graphic file (type png)
+<use Storyboard1.PNG>
+Package pdftex.def Info: Storyboard1.PNG  used on input line 123.
+(pdftex.def)             Requested size: 284.52756pt x 195.69206pt.
+<Storyboard2.PNG, id=25, 661.72218pt x 471.26062pt>
+File: Storyboard2.PNG Graphic file (type png)
+<use Storyboard2.PNG>
+Package pdftex.def Info: Storyboard2.PNG  used on input line 128.
+(pdftex.def)             Requested size: 284.52756pt x 202.63092pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<Storyboard3.PNG, id=26, 672.26157pt x 490.83376pt>
+File: Storyboard3.PNG Graphic file (type png)
+<use Storyboard3.PNG>
+Package pdftex.def Info: Storyboard3.PNG  used on input line 133.
+(pdftex.def)             Requested size: 284.52756pt x 207.73654pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<Storyboard4.PNG, id=27, 660.96938pt x 493.845pt>
+File: Storyboard4.PNG Graphic file (type png)
+<use Storyboard4.PNG>
+Package pdftex.def Info: Storyboard4.PNG  used on input line 138.
+(pdftex.def)             Requested size: 284.52756pt x 212.59033pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<Storyboard5.PNG, id=28, 671.50874pt x 481.04718pt>
+File: Storyboard5.PNG Graphic file (type png)
+<use Storyboard5.PNG>
+Package pdftex.def Info: Storyboard5.PNG  used on input line 143.
+(pdftex.def)             Requested size: 284.52756pt x 203.8221pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[4 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard0.PNG>] [5 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard1.PNG> <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard2.PNG>] [6 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard3.PNG> <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard4.PNG>] [7 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard5.PNG>] (d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/DesignProposal.aux) ) 
+Here is how much of TeX's memory you used:
+ 1251 strings out of 479485
+ 20483 string characters out of 5875916
+ 291542 words of memory out of 5000000
+ 18285 multiletter control sequences out of 15000+600000
+ 540256 words of font info for 46 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 66i,6n,72p,327b,221s stack positions out of 5000i,500n,10000p,200000b,80000s
+<c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
+Output written on "d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/DesignProposal.pdf" (8 pages, 225626 bytes).
+PDF statistics:
+ 60 PDF objects out of 1000 (max. 8388607)
+ 30 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+

@@ -4,7 +4,7 @@ from arrowCode import *
 import PIL.Image
 
 arrow = Arrow(0, 0, 10, 10, 'player')
-print(arrow.point)
+print(arrow.point, arrow.width)
 arrow.move()
 print(arrow.point)
 # assert(arrow.angleFace == (math.pi) / 4)
