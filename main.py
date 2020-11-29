@@ -8,6 +8,8 @@ from combatCode import *
 from mapCode import *
 from arrowCode import *
 from testCode import *
+from inventoryCode import *
+from animationCode import *
 import random, threading, ctypes, time, wave
 #from pydub import AudioSegment
 #from pydub.playback import play
@@ -30,6 +32,8 @@ def appStarted(app):
     getAppState(app)
     resetAnimations(app)
     test(app)
+    initInventory(app)
+    app.invTest = []
 
     app.obstacles = getObstacles()
     app.weaponItems = getWeaponItems()
@@ -51,15 +55,7 @@ def getAppState(app):
     app.normalPlay = False
     app.mapCreation = True
 
-def resetAnimations(app):
 
-    app.normalMove = False
-    app.charAttack = False
-    app.pickUp = False
-    app.idle = True
-    defineMoveType(app)
-    app.charAnimCount = 0
-    app.currFrame = 0
 
 def keyPressed(app, event):
 
@@ -77,10 +73,18 @@ def keyPressed(app, event):
         app.normalPlay = not app.normalPlay
     if app.testingMode:
         testingModeKey(app, event)
-
+    if app.inventory:
+        if event.key in ['escape', 'i']:
+            app.inventory = False
+            app.normalPlay = True
+        if event.key == 'q':
+            print(app.invTest)
     if app.normalPlay:
         dx = 0
         dy = 0
+        if event.key == 'i':
+            app.inventory = True
+            app.normalPlay = False
         if event.key == 'w':
             dy -= app.speed
             app.normalMove = True
@@ -120,7 +124,9 @@ def pointInObstacle(app, event):
 def mousePressed(app, event):
     if app.testingMode:
         mousePressedTest(app, event)
-
+    if app.inventory:
+        print(getInvCell(app, event.x, event.y))
+        app.invTest.append(getInvCell(app, event.x, event.y))
     if app.mapCreation:
         mapCreationMousePressed(app, event)
 
@@ -145,15 +151,7 @@ def destroy(app, elem):
     print(app.droppedItems)
 
 
-def defineMoveType(app):
-    if app.pickUp:
-        app.moveType = 'pickUp'
-    elif app.charAttack:
-        app.moveType = 'attack'
-    elif app.normalMove:
-        app.moveType = 'normalMove'
-    else:
-        app.moveType = 'idle'
+
 
 def makeMove(app, dx, dy):
     legalMove = True
@@ -216,22 +214,14 @@ def dostep(app):
     app.timerCount += 1
 
 
-def charAnimation(app):
-    if app.charAnimCount >= len(app.charAnimations[app.currChar][app.moveType]):
-        resetAnimations(app)
-        defineMoveType(app)
-    app.currFrame = (app.charAnimCount % len(app.charAnimations[app.currChar][app.moveType]))
-    app.charAnimCount += 1
 
-def enemAnimation(app):
-    for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
-        if enemy.currFrame >= len(enemy.frames[enemy.moveType]) - 1:
-            enemy.reset()
-        else:
-            enemy.currFrame += 1
+
+
 
 
 def redrawAll(app, canvas):
+    if app.inventory:
+        drawInventory(app, canvas)
     if app.mapCreation:
         drawMapCreationScreen(app, canvas)
     if app.normalPlay or app.testingMode:
