@@ -26,6 +26,7 @@ def appStarted(app):
     app.currChar = 'char0'
     app.timerDelay = 50
     app.timerCount = 0
+    app.droppedItems = []
     getAppState(app)
     resetAnimations(app)
     test(app)
@@ -130,10 +131,19 @@ def mousePressed(app, event):
         defineMoveType(app)
         destroyed = playerAttack(app, event)
         for elem in destroyed:
-            if isinstance(elem, tuple):
-                app.map.generatedMap[app.mapRow][app.mapCol].obstacles.remove(elem)
-            else:
-                app.map.generatedMap[app.mapRow][app.mapCol].enemies.remove(elem)
+            destroy(app, elem)
+
+def destroy(app, elem):
+    if isinstance(elem, tuple):
+        droppedItem = elem[0].drops
+        app.droppedItems.append((droppedItem, elem[1], elem[2]))
+        app.map.generatedMap[app.mapRow][app.mapCol].obstacles.remove(elem)
+    else:
+        droppedItem = itemDrop(app)
+        app.droppedItems.append((droppedItem, elem.x, elem.y))
+        app.map.generatedMap[app.mapRow][app.mapCol].enemies.remove(elem)
+    print(app.droppedItems)
+
 
 def defineMoveType(app):
     if app.pickUp:
@@ -159,9 +169,14 @@ def makeMove(app, dx, dy):
     elif app.charY - dy <= 0:
         app.mapCol -= 1
         app.charY = app.height - 10
+    testX, testY = app.charX + dx, app.charY + dy
     for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
-        if rectangleIntersect((app.charX + 50, app.charY + 50, app.charX - 50, app.charY - 50), obstacle.getBounds(x, y)):
+        if rectangleIntersect((testX + 50, testY + 50, testX - 50, testY - 50), obstacle.getBounds(x, y)):
             legalMove = False
+    for item, x, y in app.droppedItems:
+        if distance(testX, testY, x, y) <= 40:
+            item.amount += 1
+            app.droppedItems.remove((item, x, y))
     if legalMove:
         app.charX += dx
         app.charY += dy
@@ -225,6 +240,7 @@ def redrawAll(app, canvas):
         drawFigure(app, canvas)
         drawArrows(app, canvas)
         drawHealthBar(app, canvas)
+        drawDrops(app, canvas)
         if app.testingMode:
             drawTest(app, canvas)
     # if app.testingMode:
@@ -276,12 +292,18 @@ def drawHealthBar(app, canvas):
     canvas.create_rectangle(app.width - 200, app.height - 50, app.width - (200 - fullWidth), app.height - 30, fill = 'white')
     canvas.create_rectangle(app.width - 200, app.height - 50, app.width - (200 - healthWidth), app.height - 30, fill = 'red')
 
+def drawDrops(app, canvas):
+    for item, x, y  in app.droppedItems:
+        if item.imageSource != None:
+            image = ImageTk.PhotoImage(item.imageSource)
+            canvas.create_image(x, y, image = image)
+
 def testingModeKey(app, event):
     if event.key == 'c':
         app.map.generatedMap[app.mapRow][app.mapCol].obstacles.clear()
     elif event.key == 'Space':
         dostep(app)
-        
+
 '''
 class audioThread(threading.Thread):
     def __init__(self, threadID):

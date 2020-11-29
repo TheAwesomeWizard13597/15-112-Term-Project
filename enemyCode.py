@@ -20,7 +20,7 @@ def enemyMove(app):
                 rangedEnemyMove(app, 15, enemy)
                 attack = False
             for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
-                if lineInRectangle2((enemy.x, enemy.y), (app.charX, app.charY), obstacle.getBounds(x, y)):
+                if lineInRectangle((enemy.x, enemy.y), (app.charX, app.charY), obstacle.getBounds(x, y)):
                     rangedEnemyMove(app, 15, enemy)
                     attack = False
             if attack:

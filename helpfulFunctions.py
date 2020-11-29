@@ -77,14 +77,21 @@ def rectangleIntersect(rect1Dim, rect2Dim):
     return True
 
 
-def linefit(x0, x1, y0, y1):
-    pass
+def linefit(xCoords, yCoords):
+    x0, x1 = xCoords
+    y0, y1 = yCoords
+    slope = (y1 - y0)/(x1 - x0)
+
+    constant = y1 - slope * x1
+    return(slope, constant)
 #Takes three tuples, lineStart and lineEnd are (x, y) coordinates, rectDim has four elements
 def lineInRectangle(lineStart, lineEnd, rectDim):
     rectx0, recty0, rectx1, recty1 = rectDim
-    xCoords = [lineStart[0], lineEnd[0]]
-    yCoords = [lineStart[1], lineEnd[1]] #bound lines
-    coefficients = np.polyfit(xCoords, yCoords, 1) #Write this myself :)
+    xCoords = (lineStart[0], lineEnd[0])
+    yCoords = (lineStart[1], lineEnd[1]) #bound lines
+    coefficients = linefit(xCoords, yCoords)
+    print(coefficients)
+    print(np.polyfit(xCoords, yCoords, 1))#Write this myself :)
     inXRegion = False
     inYRegion = False
     for x in (rectx0, rectx1):

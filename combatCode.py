@@ -29,6 +29,7 @@ def playerAttack(app, event):
                     destroyed.append((obstacle, x, y))
         for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
             if lineInRectangle((app.charX, app.charY), (event.x, event.y), enemy.getBounds()):
+                print('here!')
                 enemy.stats['hitpoints'] -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
                 if enemy.stats['hitpoints'] <= 0:
                     destroyed.append(enemy)
