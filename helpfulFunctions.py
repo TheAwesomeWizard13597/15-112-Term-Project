@@ -60,8 +60,16 @@ def distance(x0, y0, x1, y1):
 #Takes two tuples of four elements each and returns if the rectangles made
 #By the tuples of coordinates intersect
 def rectangleIntersect(rect1Dim, rect2Dim):
-    rect1xR, rect1yB, rect1xL, rect1yT = rect1Dim
-    rect2xR, rect2yB, rect2xL, rect2yT = rect2Dim
+    rect1x0, rect1y0, rect1x1, rect1y1 = rect1Dim
+    rect2x0, rect2y0, rect2x1, rect2y1 = rect2Dim
+    rect1xR = max(rect1x0, rect1x1)
+    rect1xL = min(rect1x0, rect1x1)
+    rect1yT = min(rect1y0, rect1y1)
+    rect1yB = max(rect1y0, rect1y1)
+    rect2xR = max(rect2x0, rect2x1)
+    rect2xL = min(rect2x0, rect2x1)
+    rect2yT = min(rect2y0, rect2y1)
+    rect2yB = max(rect2y0, rect2y1)
     if rect1xR <= rect2xL or rect2xR <= rect1xL:
         return False
     if rect1yB <= rect2yT or rect2yB <= rect1yT:
@@ -77,6 +85,16 @@ def lineInRectangle(lineStart, lineEnd, rectDim):
     xCoords = [lineStart[0], lineEnd[0]]
     yCoords = [lineStart[1], lineEnd[1]] #bound lines
     coefficients = np.polyfit(xCoords, yCoords, 1) #Write this myself :)
+    inXRegion = False
+    inYRegion = False
+    for x in (rectx0, rectx1):
+        if min(lineStart[0], lineEnd[0]) <= x <= max(lineStart[0], lineEnd[0]):
+            inXRegion = True
+    for y in (recty0, recty1):
+        if min(lineStart[1], lineEnd[1]) <= y <= max(lineStart[1], lineEnd[1]):
+            inYRegion = True
+    if not (inXRegion or inYRegion):
+        return False
     if rectx0 * coefficients[0] + coefficients[1] > recty0:
         checker = 1
     else:
@@ -98,7 +116,11 @@ def lineInRectangle2(lineStart, lineEnd, rectDim):
     return False
 
 def pointInRectangle(pointCoords, rectCoords):
-    rectxR, rectyB, rectxL, rectyT = rectCoords
+    rectx0, recty0, rectx1, recty1 = rectCoords
+    rectxR = max(rectx0, rectx1)
+    rectxL = min(rectx0, rectx1)
+    rectyB = max(recty0, recty1)
+    rectyT = min(recty0, recty1)
     if rectxR < pointCoords[0] or rectxL > pointCoords[0]:
         return False
     if rectyB < pointCoords[1] or rectyT > pointCoords[1]:

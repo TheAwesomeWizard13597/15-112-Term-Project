@@ -133,7 +133,6 @@ def mousePressed(app, event):
             if isinstance(elem, tuple):
                 app.map.generatedMap[app.mapRow][app.mapCol].obstacles.remove(elem)
             else:
-                print(elem)
                 app.map.generatedMap[app.mapRow][app.mapCol].enemies.remove(elem)
 
 def defineMoveType(app):
@@ -193,6 +192,9 @@ def timerFired(app):
 def dostep(app):
     moveArrow(app)
     enemyMove(app)
+    for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
+        if enemy.stats['attType'] in ['ranged', 'magic']:
+            enemy.cooldown -= 1
     if app.timerCount % 4 == 0:
         charAnimation(app)
         enemAnimation(app)
@@ -222,6 +224,7 @@ def redrawAll(app, canvas):
         drawEnemies(app, canvas)
         drawFigure(app, canvas)
         drawArrows(app, canvas)
+        drawHealthBar(app, canvas)
         if app.testingMode:
             drawTest(app, canvas)
     # if app.testingMode:
@@ -262,6 +265,16 @@ def drawArrows(app, canvas):
         rotatedImage = arrow.image.rotate(arrow.angleFace * (180/math.pi), expand = True)
         image = ImageTk.PhotoImage(rotatedImage)
         canvas.create_image(arrow.x, arrow.y, image = image)
+
+def drawHealthBar(app, canvas):
+    fullWidth = 150
+    healthRatio = app.charStats[app.currChar]['hitPoints']/app.charStats[app.currChar]['initHitPoints']
+    if healthRatio >= 0:
+        healthWidth = 150 * healthRatio
+    else:
+        healthWidth = 0
+    canvas.create_rectangle(app.width - 200, app.height - 50, app.width - (200 - fullWidth), app.height - 30, fill = 'white')
+    canvas.create_rectangle(app.width - 200, app.height - 50, app.width - (200 - healthWidth), app.height - 30, fill = 'red')
 
 def testingModeKey(app, event):
     if event.key == 'c':

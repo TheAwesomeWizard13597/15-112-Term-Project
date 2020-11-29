@@ -11,8 +11,9 @@ def test(app):
     app.arrowPlacementButton = (app.width - 10, 300, app.width - 100, 210, 'arrow')
     app.teleport = False
     app.teleportButton = (app.width - 10, 400, app.width - 100, 310, 'teleport')
+    app.refreshHealthButton = (app.width - 10, 500, app.width - 100, 410, 'health')
     app.testButtons = [app.obstaclePlacementButton, app.enemyPlacementButton,
-                       app.arrowPlacementButton, app.teleportButton]
+                       app.arrowPlacementButton, app.teleportButton, app.refreshHealthButton]
     app.test = (app.obstaclePlacement, app.enemyPlacement, app.arrowPlacement, app.teleport)
 
 def drawTest(app, canvas):
@@ -22,7 +23,10 @@ def drawTest(app, canvas):
         canvas.create_text(midpoint(x0, x1), midpoint(y0, y1), text = text)
 
 def setAllTestFalse(app):
-    app.test = (False, False, False, False)
+    app.obstaclePlacement = False
+    app.enemyPlacement = False
+    app.arrowPlacement = False
+    app.teleport = False
 
 def mousePressedTest(app, event):
     print(event.x, event.y)
@@ -40,6 +44,8 @@ def mousePressedTest(app, event):
         if pointInRectangle((event.x, event.y), app.teleportButton[0:4]):
             setAllTestFalse(app)
             app.teleport = True
+        if pointInRectangle((event.x, event.y), app.refreshHealthButton[0:4]):
+            app.charStats[app.currChar]['hitPoints'] = app.charStats[app.currChar]['initHitPoints']
     else:
         print('here!')
         if app.obstaclePlacement:
