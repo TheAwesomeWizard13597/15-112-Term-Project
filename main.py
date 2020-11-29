@@ -75,8 +75,10 @@ def keyPressed(app, event):
         testingModeKey(app, event)
     if app.inventory:
         if event.key in ['escape', 'i']:
+            print('here!')
             app.inventory = False
             app.normalPlay = True
+            return
         if event.key == 'q':
             print(app.invTest)
     if app.normalPlay:
@@ -148,10 +150,6 @@ def destroy(app, elem):
         droppedItem = itemDrop(app)
         app.droppedItems.append((droppedItem, elem.x, elem.y))
         app.map.generatedMap[app.mapRow][app.mapCol].enemies.remove(elem)
-    print(app.droppedItems)
-
-
-
 
 def makeMove(app, dx, dy):
     legalMove = True
@@ -173,6 +171,7 @@ def makeMove(app, dx, dy):
             legalMove = False
     for item, x, y in app.droppedItems:
         if distance(testX, testY, x, y) <= 40:
+
             item.amount += 1
             app.droppedItems.remove((item, x, y))
     if legalMove:
@@ -199,6 +198,8 @@ def itemDrop(app):
     return item
 
 def timerFired(app):
+    if app.inventory:
+        doStepInv(app)
     if app.normalPlay:
         dostep(app)
 

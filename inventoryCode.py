@@ -1,3 +1,6 @@
+from helpfulFunctions import *
+from PIL import ImageTk
+
 def initInventory(app):
     app.invMargin = 20
     app.invRows = 10
@@ -8,18 +11,51 @@ def initInventory(app):
     app.leggingCoords = (3, 6)
     app.bootCoords = (4, 6)
     app.inventory = False
+    app.invAnimationCount = 0
+    app.invCurrFrame = 0
 
 def drawInventory(app, canvas):
     canvas.create_rectangle(0, 0, app.height, app.width, fill = 'red')
+    gridWidth = app.width - 2 * app.invMargin
+    cellWidth = gridWidth // app.invCols
+    itemList = list(app.junkItems.values()) + list(app.armorItems.values()) + list(app.weaponItems.values())
+    inventory = []
+    for item in itemList:
+        if item.amount > 0 and item.imageSource != None:
+            inventory.append(item)
+    print(inventory)
     for row in range(app.invRows):
         for col in range(app.invCols):
             x0, y0, x1, y1 = getInvCellBounds(app, row, col)
-            if (row, col) in app.invTest:
+            if (row, col) in [app.helmetCoords, app.chestCoords, app.leggingCoords, app.bootCoords]:
                 color = 'blue'
-            else:
-                color = 'white'
-            canvas.create_rectangle(x0, y0, x1, y1, fill = color)
+                canvas.create_rectangle(x0, y0, x1, y1, fill=color)
+    for (row, col) in app.invCoords:
+        x0, y0, x1, y1 = getInvCellBounds(app, row, col)
+        if len(inventory) > 0:
+            item = inventory.pop()
+            resizedImage = item.imageSource.resize((cellWidth, cellWidth))
+            image = ImageTk.PhotoImage(resizedImage)
+            canvas.create_image(midpoint(x0, x1), midpoint(y0, y1), image = image)
+            canvas.create_text(x1 - 10, y1 - 10, text = f'x{item.amount}')
+        else:
+            canvas.create_rectangle(x0, y0, x1, y1, fill = 'white')
+    for char in ['char0']:
+        resizedImage = app.charAnimations[char]['idle'][app.invCurrFrame].resize((4*cellWidth, 4*cellWidth))
+        image = ImageTk.PhotoImage(resizedImage)
+        x0, y0, trash, trash1 = getInvCellBounds(app, 1, 1)
+        trash2, trash3, x1, y1 = getInvCellBounds(app, 4, 4)
+        canvas.create_image(midpoint(x0, x1), midpoint(y0, y1), image = image)
 
+
+def doStepInv(app):
+    inventoryAnimation(app)
+
+def inventoryAnimation(app):
+    if app.invAnimationCount >= 5:
+        app.invAnimationCount = 0
+    app.invCurrFrame = app.invAnimationCount % 5
+    app.invAnimationCount += 1
 
 #From course notes
 def pointInGrid(app, x, y):

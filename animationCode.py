@@ -17,6 +17,8 @@ def charAnimation(app):
     app.currFrame = (app.charAnimCount % len(app.charAnimations[app.currChar][app.moveType]))
     app.charAnimCount += 1
 
+
+
 def enemAnimation(app):
     for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
         if enemy.currFrame >= len(enemy.frames[enemy.moveType]) - 1:
