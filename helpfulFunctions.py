@@ -137,64 +137,6 @@ def pointInRectangle(pointCoords, rectCoords):
 def midpoint(n1, n2):
     return ((n1 + n2)/2)
 
-    
-
-
-##############################################
-#intended to create a set of helpful functions for testing purposes
-#And for conciseness
-#Programmed by Ryan Bao Testing Part 2
-#ABCDEFG
-##############################################
-import math
-import sys
-# Obtained from class notes
-def findInstallLibrary(library):
-    print(f'"{sys.executable}" -m pip install '+library)
-
-def make2dList(rows, cols):
-    return [ ([None] * cols) for row in range(rows) ]
-
-# Helper function for print2dList.
-# This finds the maximum length of the string
-# representation of any item in the 2d list
-def maxItemLength(a):
-    maxLen = 0
-    for row in range(len(a)):
-        for col in range(len(a[row])):
-            maxLen = max(maxLen, len(repr(a[row][col])))
-    return maxLen
-
-def print2dList(a):
-    if a == []:
-        print([])
-        return
-    print()
-    rows, cols = len(a), len(a[0])
-    maxCols = max([len(row) for row in a])
-    fieldWidth = max(maxItemLength(a), len(f'col={maxCols-1}'))
-    rowLabelSize = 5 + len(str(rows-1))
-    rowPrefix = ' '*rowLabelSize+' '
-    rowSeparator = rowPrefix + '|' + ('-'*(fieldWidth+3) + '|')*maxCols
-    print(rowPrefix, end='  ')
-    # Prints the column labels centered
-    for col in range(maxCols):
-        print(f'col={col}'.center(fieldWidth+2), end='  ')
-    print('\n' + rowSeparator)
-    for row in range(rows):
-        # Prints the row labels
-        print(f'row={row}'.center(rowLabelSize), end=' | ')
-        # Prints each item of the row flushed-right but the same width
-        for col in range(len(a[row])):
-            print(repr(a[row][col]).center(fieldWidth+1), end=' | ')
-        # Prints out missing cells in each column in case the list is ragged
-        missingCellChar = chr(10006)
-        for col in range(len(a[row]), maxCols):
-            print(missingCellChar*(fieldWidth+1), end=' | ')
-        print('\n' + rowSeparator)
-    print()
-
-        
 def thunk():
     return(False)
 
