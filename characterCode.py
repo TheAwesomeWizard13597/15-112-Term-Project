@@ -75,8 +75,9 @@ def char0Stats():
     stats['constitution'] = 6
     stats['dexterity'] = 4
     stats['intelligence'] = 3
-    stats['attType'] = 'ranged'
+    stats['attType'] = 'magic'
     stats['hitPoints'] = 120
+    stats['initHitPoints'] = 120
     return stats
 
 #Character 2 is imagined to be a smaller female, designed as a mage 
@@ -89,6 +90,7 @@ def char1Stats():
     stats['intelligence'] = 10
     stats['attType'] = 'magic'
     stats['hitPoints'] = 90
+    stats['initHitPoints'] = 90
     return stats
 
 #Character 3 is imagined to be a middle-sized androgynous male, designed as a
@@ -102,6 +104,7 @@ def char2Stats():
     stats['dexterity'] = 8
     stats['attType'] = 'ranged'
     stats['hitPoints'] = 100
+    stats['initHitPoints'] = 100
     return stats
 
 #Character 4 is imagined to be a smaller female, designed as an assassin/rogue
@@ -114,5 +117,6 @@ def char3Stats():
     stats['constitution'] = 4
     stats['attType'] = 'stab'
     stats['hitPoints'] = 120
+    stats['initHitPoints'] = 120
     return stats
 

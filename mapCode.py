@@ -83,9 +83,9 @@ def getObstacles():
     largeRock = obstacle('large rock', 100, 100, obstacleImages['rock'].resize((100, 100)), 10, junkItems['rock'])
     mediumRock = obstacle('medium rock', 75, 75, obstacleImages['rock'].resize((75, 75)), 10, junkItems['rock'])
     smallRock = obstacle('small rock', 50, 50, obstacleImages['rock'].resize((50, 50)), 10, junkItems['rock'])
-    largeTree = obstacle('large tree', 100, 100, obstacleImages['rock'].resize((100, 100)), 10, junkItems['wood'])
-    mediumTree = obstacle('medium tree', 75, 75, obstacleImages['rock'].resize((75, 75)), 10, junkItems['wood'])
-    smallTree = obstacle('small tree', 50, 50, obstacleImages['rock'].resize((50, 50)), 10, junkItems['wood'])
+    largeTree = obstacle('large tree', 100, 100, obstacleImages['tree'].resize((100, 100)), 10, junkItems['wood'])
+    mediumTree = obstacle('medium tree', 75, 75, obstacleImages['tree'].resize((75, 75)), 10, junkItems['wood'])
+    smallTree = obstacle('small tree', 50, 50, obstacleImages['tree'].resize((50, 50)), 10, junkItems['wood'])
     return (largeRock, mediumRock, smallRock, largeTree, mediumTree, smallTree)
 
 def generateEnemies(width, height, seed, obstacles):

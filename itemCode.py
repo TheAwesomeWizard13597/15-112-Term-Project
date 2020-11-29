@@ -3,6 +3,8 @@ import pandas as pd
 import os, PIL.Image
 
 
+
+
 def getItemDrops(app):
     app.drops = {'junk': list(app.junkItems.values()), 'uncommon': [], 'rare': []}
     app.rareProbability = 5
@@ -27,6 +29,7 @@ armorItem = make_dataclass('armorItem', ['name', 'type', 'value', 'amount', 'pro
                                          'imageSource', 'enchantment', 'special'])
 
 def getWeaponItems():
+    factor = 10
     weapons = dict()
     weaponDf = pd.read_csv('items/weapons/weaponStats.csv', index_col = 'weapon')
     for i, row in weaponDf.iterrows():
@@ -42,17 +45,20 @@ def getWeaponItems():
         if os.path.exists('items/weapons/weaponImages/' + fileName):
             pathName = 'items/weapons/weaponImages/' + fileName
             image = PIL.Image.open(pathName)
+            width, height = image.size
+            resizedImage = image.resize((width // factor, height // factor))
         else:
-            image = None
+            resizedImage = None
             print(index + ' is not here!')
         newWeapon = weaponItem(name = index, strength = strength, damageType = damageType,
                                 durability = durability, special = special,
                                 rarity = rarity, value = value, amount = 0,
-                                imageSource = image, enchantment = None)
+                                imageSource = resizedImage, enchantment = None)
         weapons[index] = newWeapon
     return weapons
 
 def getJunkItems():
+    factor = 10
     junk = dict()
     junkDf = pd.read_csv('items/junk/junkStats.csv', index_col = 'item')
     for i, row in junkDf.iterrows():
@@ -61,15 +67,18 @@ def getJunkItems():
         fileName = 'items/junk/junkImages/' + index + '.png'
         if os.path.exists(fileName):
             image = PIL.Image.open(fileName)
+            width, height = image.size
+            resizedImage = image.resize((width // factor, height // factor))
         else:
-            image = None
+            resizedImage = None
             print(index + ' is not here!')
         newItem = junkItem(name = index, value = value, amount = 0, 
-                            imageSource = image)
+                            imageSource = resizedImage)
         junk[index] = newItem
     return junk
 
 def getArmorItems():
+    factor = 10
     armor = dict()
     armorDf = pd.read_csv('items/armor/armorStats.csv', index_col = 'armor')
     for i, row in armorDf.iterrows():
@@ -83,13 +92,15 @@ def getArmorItems():
         fileName = 'items/armor/armorImages/' + index + '.png'
         if os.path.exists(fileName):
             image = PIL.Image.open(fileName)
+            width, height = image.size
+            resizedImage = image.resize((width // factor, height // factor))
         else:
-            image = None
+            resizedImage = None
             print(index + 'is not here!')
         newItem = armorItem(name = index, value = value, amount = 0, 
                             type = armorType, protectionVal = protection, 
                             rarity = rarity, special = special, enchantment = None,
-                            imageSource = image)
+                            imageSource = resizedImage)
         armor[index] = newItem
     return armor
 

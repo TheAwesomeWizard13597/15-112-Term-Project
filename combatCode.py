@@ -2,8 +2,7 @@ from itemCode import *
 from helpfulFunctions import *
 from arrowCode import *
 
-def damageCalculator(charStats, item):
-    print(charStats, item)
+def damageCalculator(charStats, item, targetArmor = None):
     if item.damageType == 'magic':
         damage = charStats['intelligence'] * item.strength
     if item.damageType == 'piercing':
@@ -22,30 +21,26 @@ def playerAttack(app, event):
     factor = 10
     destroyed = []
     if app.charStats[app.currChar]['attType'] == 'magic':
-        print('here!')
 
         for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
             if lineInRectangle((app.charX, app.charY), (event.x, event.y), obstacle.getBounds(x, y)):
-                print('here!')
                 obstacle.hitPoints -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
                 if obstacle.hitPoints <= 0:
                     destroyed.append((obstacle, x, y))
         for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
             if lineInRectangle((app.charX, app.charY), (event.x, event.y), enemy.getBounds()):
+                print('here!')
                 enemy.stats['hitpoints'] -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
                 if enemy.stats['hitpoints'] <= 0:
                     destroyed.append(enemy)
-        print(destroyed)
         return destroyed
     elif app.charStats[app.currChar]['attType'] == 'ranged':
         dy = -(event.y - app.charY) / factor
         dx = (event.x - app.charX) / factor
         app.arrows.append(Arrow(app.charX, app.charY, dx, dy, 'player'))
     elif app.charStats[app.currChar]['attType'] == 'sweep':
-        print('here!')
         for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
             if distance(app.charX, app.charY, x, y) <= 100:
-                print('obstacle!', obstacle.hitPoints)
                 obstacle.hitPoints -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
                 if obstacle.hitPoints <= 0:
                     destroyed.append((obstacle, x, y))
@@ -55,6 +50,5 @@ def playerAttack(app, event):
                 if enemy.stats['hitpoints'] <= 0:
                     destroyed.append(enemy)
     else: pass
-    print(destroyed)
     return destroyed
 
