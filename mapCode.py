@@ -3,11 +3,29 @@ from itemCode import *
 from enemyCode import *
 import random, copy
 import PIL.Image
+def initMap(app):
+    app.mapCreationOffset = app.height / 6
+    app.enemies = getEnemies()
+    app.obstacles = getObstacles(app)
 
+def drawMapCreationScreen(app, canvas):
+    canvas.create_rectangle(0, app.mapCreationOffset, app.width / 3, app.height)
+    canvas.create_rectangle(app.width / 3, app.mapCreationOffset, app.width * 2 / 3, app.height)
+    canvas.create_rectangle(app.width * 2 / 3, app.mapCreationOffset, app.width, app.height)
+    canvas.create_line(0, app.mapCreationOffset, app.width, app.mapCreationOffset)
+    canvas.create_text(app.width / 2, app.mapCreationOffset / 2,
+                        text = 'Map Creator',
+                        font = 'Arial 20 bold')
+    canvas.create_text(app.width / 6, (app.height + app.mapCreationOffset) / 2,
+                        text = 'Small Map!')
+    canvas.create_text(app.width / 2, (app.height + app.mapCreationOffset) / 2,
+                        text = 'Medium Map!')
+    canvas.create_text(app.width * 5/ 6, (app.height + app.mapCreationOffset) / 2,
+                        text = 'Large Map!')
 
 def generateMapApp(app):
     seed = app.getUserInput('Enter a seed here! Leave blank for a random seed')
-    app.map = mapData(app.size, app.width, app.height, seed = seed)
+    app.map = mapData(app.size, app.width, app.height, app, seed = seed)
     if app.size == 'large':
         app.mapRow = app.mapCol = 4
     elif app.size == 'medium':
@@ -42,14 +60,14 @@ class obstacle():
                 xpos - self.width / 2, ypos - self.height / 2))
 
 class mapData():
-    def __init__(self, size, chunkWidth, chunkHeight, seed = None):
+    def __init__(self, size, chunkWidth, chunkHeight, app, seed = None):
         emptyMap = generateEmptyMap(size)
         if seed == None:
             seed = random.randint(0, 100000000000000)
         else:
             seed = hash(seed)
 #            print('AAAAAAAAAA LOOK AT ME' + str(type(seed)))
-        self.generatedMap = generateMap(emptyMap, chunkWidth, chunkHeight, seed)
+        self.generatedMap = generateMap(emptyMap, chunkWidth, chunkHeight, seed, app)
 
 def generateEmptyMap(size):
     print('generating empty map')
@@ -63,8 +81,8 @@ def generateEmptyMap(size):
     return make2dList(mapSize, mapSize)
 
 class chunk():
-    def __init__(self, width, height, seed):
-        self.obstacles = generateChunkObstacles(width, height, seed)
+    def __init__(self, width, height, seed, app):
+        self.obstacles = generateChunkObstacles(width, height, seed, app)
         self.enemies = generateEnemies(width, height, seed, self.obstacles)
         self.objectives = []
         self.treasure = []
@@ -77,15 +95,14 @@ def getObstacleImages():
             obstacles[imageFile.split('.')[0]] = image
     return obstacles
 
-def getObstacles():
-    junkItems = getJunkItems()
+def getObstacles(app):
     obstacleImages = getObstacleImages()
-    largeRock = obstacle('large rock', 100, 100, obstacleImages['rock'].resize((100, 100)), 10, junkItems['rock'])
-    mediumRock = obstacle('medium rock', 75, 75, obstacleImages['rock'].resize((75, 75)), 10, junkItems['rock'])
-    smallRock = obstacle('small rock', 50, 50, obstacleImages['rock'].resize((50, 50)), 10, junkItems['rock'])
-    largeTree = obstacle('large tree', 100, 100, obstacleImages['tree'].resize((100, 100)), 10, junkItems['wood'])
-    mediumTree = obstacle('medium tree', 75, 75, obstacleImages['tree'].resize((75, 75)), 10, junkItems['wood'])
-    smallTree = obstacle('small tree', 50, 50, obstacleImages['tree'].resize((50, 50)), 10, junkItems['wood'])
+    largeRock = obstacle('large rock', 100, 100, obstacleImages['rock'].resize((100, 100)), 10, app.junkItems['rock'])
+    mediumRock = obstacle('medium rock', 75, 75, obstacleImages['rock'].resize((75, 75)), 10, app.junkItems['rock'])
+    smallRock = obstacle('small rock', 50, 50, obstacleImages['rock'].resize((50, 50)), 10, app.junkItems['rock'])
+    largeTree = obstacle('large tree', 100, 100, obstacleImages['tree'].resize((100, 100)), 10, app.junkItems['wood'])
+    mediumTree = obstacle('medium tree', 75, 75, obstacleImages['tree'].resize((75, 75)), 10, app.junkItems['wood'])
+    smallTree = obstacle('small tree', 50, 50, obstacleImages['tree'].resize((50, 50)), 10, app.junkItems['wood'])
     return (largeRock, mediumRock, smallRock, largeTree, mediumTree, smallTree)
 
 def generateEnemies(width, height, seed, obstacles):
@@ -117,16 +134,15 @@ def generateEnemies(width, height, seed, obstacles):
 
 
 
-def generateChunkObstacles(width, height, seed):
+def generateChunkObstacles(width, height, seed, app):
     obstacleLocations = []
     numObstacles = random.randint(1, 10)
-    obstacles = getObstacles()
     obstacleCounts = dict()
     #random.seed(a = seed)
     while len(obstacleLocations) < numObstacles:
         obstacleXPos = random.randint(0, width)
         obstacleYPos = random.randint(0, height)
-        tempObstacle = copy.deepcopy(random.choice(obstacles))
+        tempObstacle = copy.copy(random.choice(app.obstacles))
         isLegalObstacle = True
         bounds = tempObstacle.getBounds(obstacleXPos, obstacleYPos)
         for elem in bounds:
@@ -145,17 +161,17 @@ def generateChunkObstacles(width, height, seed):
         
         
 
-def generateMap(emptyMap, width, height, seed):
+def generateMap(emptyMap, width, height, seed, app):
     size = len(emptyMap)
     generatedMap = make2dList(size, size)
     random.seed(a = seed)
     for row in range(size):
         for col in range(size):
             if seed > 0:
-                randomizer = random.randint(0, seed)
+                randomizer = random.randint(1, seed)
             else:
                 randomizer = random.randint(seed, 0)
-            generatedMap[row][col] = chunk(width, height, seed/randomizer)
+            generatedMap[row][col] = chunk(width, height, seed/randomizer, app)
     return generatedMap
             
 

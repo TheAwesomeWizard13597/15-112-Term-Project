@@ -2,7 +2,7 @@ from helpfulFunctions import *
 from enemyCode import *
 import copy
 
-def test(app):
+def initTest(app):
     app.obstaclePlacement = False
     app.obstaclePlacementButton = (app.width - 10, 100, app.width - 100, 10, 'obstacle')
     app.enemyPlacement = False
@@ -12,9 +12,13 @@ def test(app):
     app.teleport = False
     app.teleportButton = (app.width - 10, 400, app.width - 100, 310, 'teleport')
     app.refreshHealthButton = (app.width - 10, 500, app.width - 100, 410, 'health')
+    app.godModeButton = (app.width - 10, 600, app.width - 100, 510, 'Godmode')
     app.testButtons = [app.obstaclePlacementButton, app.enemyPlacementButton,
-                       app.arrowPlacementButton, app.teleportButton, app.refreshHealthButton]
+                       app.arrowPlacementButton, app.teleportButton, app.refreshHealthButton,
+                       app.godModeButton]
     app.test = (app.obstaclePlacement, app.enemyPlacement, app.arrowPlacement, app.teleport)
+    app.godMode = False
+
 
 def drawTest(app, canvas):
     canvas.create_rectangle(app.width - 110, 0, app.width, app.height, fill = 'white')
@@ -46,6 +50,10 @@ def mousePressedTest(app, event):
             app.teleport = True
         if pointInRectangle((event.x, event.y), app.refreshHealthButton[0:4]):
             app.charStats[app.currChar]['hitPoints'] = app.charStats[app.currChar]['initHitPoints']
+        if pointInRectangle((event.x, event.y), app.godModeButton[0:4]):
+
+            app.godMode = not app.godMode
+            print('godMode!', app.godMode)
     else:
         print('here!')
         if app.obstaclePlacement:

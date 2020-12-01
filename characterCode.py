@@ -9,6 +9,48 @@ from PIL import ImageTk
 import PIL.Image
 from tkinter import *
 import random
+from helpfulFunctions import *
+def initChar(app):
+    app.charX = app.width / 2
+    app.charY = app.height / 2
+    app.speed = 5
+    app.charAnimations, app.charStats = getCharacters()
+    app.charWidth = app.width // 3
+    app.charHeight = app.height // 3
+    app.currChar = 'char0'
+
+def makeMove(app, dx, dy):
+    legalMove = True
+    if app.charX + dx >= app.width:
+        app.mapRow += 1
+        app.charX = 10
+        app.droppedItems = []
+    elif app.charX - dx <= 0:
+        app.mapRow -= 1
+        app.droppedItems = []
+        app.charX = app.width - 10
+    elif app.charY + dy >= app.height:
+        app.mapCol -= 1
+        app.charY = 10
+        app.droppedItems = []
+    elif app.charY - dy <= 0:
+        app.mapCol -= 1
+        app.charY = app.height - 10
+        app.droppedItems = []
+    testX, testY = app.charX + dx, app.charY + dy
+    for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
+        if rectangleIntersect((testX + 50, testY + 50, testX - 50, testY - 50), obstacle.getBounds(x, y)):
+            legalMove = False
+    for item, x, y in app.droppedItems:
+        if distance(testX, testY, x, y) <= 40:
+            item.amount += 1
+            app.droppedItems.remove((item, x, y))
+    if legalMove:
+        app.charX += dx
+        app.charY += dy
+    else:
+        app.charX -= dx
+        app.charY -= dy
 
 #Creates a dictionary of characters with the keys mapping to 
 #Lists of the frames of each character
@@ -75,7 +117,7 @@ def char0Stats():
     stats['constitution'] = 6
     stats['dexterity'] = 4
     stats['intelligence'] = 3
-    stats['attType'] = 'magic'
+    stats['attType'] = 'ranged'
     stats['hitPoints'] = 120
     stats['initHitPoints'] = 120
     return stats

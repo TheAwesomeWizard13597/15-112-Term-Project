@@ -11,7 +11,7 @@ def damageCalculator(charStats, item, targetArmor = None):
         damage = 0.3 * charStats['dexterity'] * charStats['strength'] * item.strength
     if item.damageType == 'crushing':
         damage = 0.5 * charStats['strength'] * item.strength
-    return damage
+    return (damage // 3)
 '''
 def doesHit(charX, charY, enemyX, enemyY, currObstaclePositions):
     slope = (enemyY - charY) / (enemyX - charX)

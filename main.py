@@ -3,6 +3,7 @@ from characterCode import *
 from helpfulFunctions import *
 from itemCode import *
 from testFunctions import *
+from deadCode import *
 #from draw import *
 from combatCode import * 
 from mapCode import *
@@ -10,6 +11,9 @@ from arrowCode import *
 from testCode import *
 from inventoryCode import *
 from animationCode import *
+from craftingCode import *
+from keyBindings import *
+from pauseCode import *
 import random, threading, ctypes, time, wave
 #from pydub import AudioSegment
 #from pydub.playback import play
@@ -19,32 +23,22 @@ import random, threading, ctypes, time, wave
         
 def appStarted(app):
     #Movement Variables
-    app.charX = app.width / 2
-    app.charY = app.height / 2
-    app.speed = 5
-    app.charAnimations, app.charStats = getCharacters()
-    app.charWidth = app.width // 3
-    app.charHeight = app.height // 3
-    app.currChar = 'char0'
-    app.timerDelay = 50
-    app.timerCount = 0
-    app.droppedItems = []
+    initChar(app)
+    initItems(app)
+    initMap(app)
+    initTimer(app)
     getAppState(app)
     resetAnimations(app)
-    test(app)
+    initTest(app)
     initInventory(app)
-    app.invTest = []
-
-    app.obstacles = getObstacles()
-    app.weaponItems = getWeaponItems()
-    app.enemies = getEnemies()
-    app.equippedWeapon = app.weaponItems['sword']
-    app.armorItems = getArmorItems()     
-    app.junkItems = getJunkItems()
+    initCrafting(app)
+    initKeyBindings(app)
+    initDead(app)
+    initPaused(app)
+    app.enemyKilled = 0
     app.arrows = []
-    getItemDrops(app)
-    app.mapCreationOffset = app.height / 6
     app.testCount = 0
+    app.won = False
     pass
 
 def getAppState(app):
@@ -58,11 +52,10 @@ def getAppState(app):
 
 
 def keyPressed(app, event):
-
-
     if app.isPaused:
-        if event.key == 'p':
+        if event.key == app.keybindings['togglePause']:
             app.isPaused = not app.isPaused
+            app.normalPlay = True
         return
     if app.isDeath:
         return
@@ -74,35 +67,47 @@ def keyPressed(app, event):
     if app.testingMode:
         testingModeKey(app, event)
     if app.inventory:
-        if event.key in ['escape', 'i']:
-            print('here!')
+        if event.key == app.keybindings['toggleInventory']:
             app.inventory = False
             app.normalPlay = True
             return
         if event.key == 'q':
             print(app.invTest)
+    if app.crafting:
+        if event.key == app.keybindings['toggleCrafting']:
+            app.normalPlay = True
+            app.crafting = False
+            return
     if app.normalPlay:
         dx = 0
         dy = 0
-        if event.key == 'i':
-            app.inventory = True
+        if event.key == app.keybindings['toggleCrafting']:
+            getInv(app)
+            app.crafting = True
             app.normalPlay = False
-        if event.key == 'w':
+        if event.key == app.keybindings['toggleInventory']:
+            app.inventory = True
+            getInv(app)
+            app.normalPlay = False
+        if event.key == app.keybindings['togglePause']:
+            app.normalPlay = False
+            app.isPaused = True
+        if event.key == app.keybindings['moveUp']:
             dy -= app.speed
             app.normalMove = True
             app.charStats['dirFaced'] = 'up'
             defineMoveType(app)
-        if event.key == 's':
+        if event.key == app.keybindings['moveDown']:
             dy += app.speed
             app.normalMove = True
             app.charStats['dirFaced'] = 'down'
             defineMoveType(app)
-        if event.key == 'd':
+        if event.key == app.keybindings['moveRight']:
             dx += app.speed
             app.normalMove = True
             app.charStats['dirFaced'] = 'left'
             defineMoveType(app)
-        if event.key == 'a':
+        if event.key == app.keybindings['moveLeft']:
             dx -= app.speed
             app.normalMove = True
             app.charStats['dirFaced'] = 'right'
@@ -115,20 +120,37 @@ def keyPressed(app, event):
 
         makeMove(app, dx, dy)
 
-def pointInObstacle(app, event):
-    thowo = False
-    for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
-        if pointInRectangle((event.x, event.y), obstacle.getBounds(x, y)):
-            thowo = True
-        print(f'{(event.x, event.y)}, {obstacle.getBounds(x, y)}')
-    print(f'thowo = {thowo}')
-
 def mousePressed(app, event):
+    if app.dead and not app.godMode:
+        if pointInRectangle((event.x, event.y), app.restartButtonDead[0:4]):
+            appStarted(app)
+            return
     if app.testingMode:
         mousePressedTest(app, event)
+    if app.crafting:
+        craftingMousePressed(app, event)
     if app.inventory:
-        print(getInvCell(app, event.x, event.y))
-        app.invTest.append(getInvCell(app, event.x, event.y))
+        cell = getInvCell(app, event.x, event.y)
+        if cell in app.invCoords:
+            index = app.invCoords.index(cell)
+            if index < len(app.inv):
+                app.currInvItem = app.inv[index]
+        if cell == app.helmetCoords and app.currInvItem != None:
+            app.helmet = app.currInvItem
+            app.currInvItem.amount -= 1
+            app.currInvItem = None
+    if app.isPaused and not app.resetConfirmation and not app.keyBindingChange:
+        pauseMousePressed(app, event)
+        return
+    if app.keyBindingChange:
+        pass
+    if app.resetConfirmation:
+        if pointInRectangle((event.x, event.y), app.resetConfirmationButton[0:4]):
+            appStarted(app)
+            return
+        if pointInRectangle((event.x, event.y), app.resetDenialButton[0:4]):
+            app.resetConfirmation = False
+            return
     if app.mapCreation:
         mapCreationMousePressed(app, event)
 
@@ -150,54 +172,13 @@ def destroy(app, elem):
         droppedItem = itemDrop(app)
         app.droppedItems.append((droppedItem, elem.x, elem.y))
         app.map.generatedMap[app.mapRow][app.mapCol].enemies.remove(elem)
-
-def makeMove(app, dx, dy):
-    legalMove = True
-    if app.charX + dx >= app.width:
-        app.mapRow += 1
-        app.charX = 10
-    elif app.charX - dx <= 0:
-        app.mapRow -= 1
-        app.charX = app.width - 10
-    elif app.charY + dy >= app.height:
-        app.mapCol -= 1
-        app.charY = 10
-    elif app.charY - dy <= 0:
-        app.mapCol -= 1
-        app.charY = app.height - 10
-    testX, testY = app.charX + dx, app.charY + dy
-    for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
-        if rectangleIntersect((testX + 50, testY + 50, testX - 50, testY - 50), obstacle.getBounds(x, y)):
-            legalMove = False
-    for item, x, y in app.droppedItems:
-        if distance(testX, testY, x, y) <= 40:
-
-            item.amount += 1
-            app.droppedItems.remove((item, x, y))
-    if legalMove:
-        app.charX += dx
-        app.charY += dy
-    else:
-        app.charX -= dx
-        app.charY -= dy
-        
-def itemDrop(app):
-    itemProbability = random.randint(0, 100)
-    if itemProbability < (100 - app.uncommonProbability - app.rareProbability):
-        item = random.choice(app.drops['junk'])
-        app.uncommonProbability += 5
-        app.rareProbability += 1
-    elif itemProbability < (100 - app.rareProbability):
-        item = random.choice(app.drops['uncommon'])
-        app.uncommonProbability = 25
-        app.rareProbability += 1
-    else:
-        item = random.choice(app.drops['rare'])
-        app.uncommonProbability = 25
-        app.rareProbability = 5
-    return item
+        app.enemyKilled += 1
+        if app.enemyKilled >= 10:
+            app.won = True
 
 def timerFired(app):
+    if app.isPaused:
+        return
     if app.inventory:
         doStepInv(app)
     if app.normalPlay:
@@ -214,18 +195,21 @@ def dostep(app):
         enemAnimation(app)
     app.timerCount += 1
 
-
-
-
-
-
-
 def redrawAll(app, canvas):
+    if app.won:
+        drawWinScreen(app, canvas)
+        return
+    if app.dead and not app.godMode:
+        drawDeathScreen(app, canvas)
+        return
+    if app.crafting:
+        drawCrafting(app, canvas)
+        return
     if app.inventory:
         drawInventory(app, canvas)
     if app.mapCreation:
         drawMapCreationScreen(app, canvas)
-    if app.normalPlay or app.testingMode:
+    if app.normalPlay or app.testingMode or app.isPaused:
         drawMap(app, canvas)
         drawEnemies(app, canvas)
         drawFigure(app, canvas)
@@ -234,22 +218,18 @@ def redrawAll(app, canvas):
         drawDrops(app, canvas)
         if app.testingMode:
             drawTest(app, canvas)
+        if app.isPaused or app.resetConfirmation or app.keyBindingChange:
+            drawPaused(app, canvas)
+            if app.resetConfirmation:
+                drawResetConfirmation(app, canvas)
+            if app.keyBindingChange:
+                drawChangeKeyBindings(app, canvas)
+
     # if app.testingMode:
     #     drawArrows(app, canvas)
-def drawMapCreationScreen(app, canvas):
-    canvas.create_rectangle(0, app.mapCreationOffset, app.width / 3, app.height)
-    canvas.create_rectangle(app.width / 3, app.mapCreationOffset, app.width * 2 / 3, app.height)
-    canvas.create_rectangle(app.width * 2 / 3, app.mapCreationOffset, app.width, app.height)
-    canvas.create_line(0, app.mapCreationOffset, app.width, app.mapCreationOffset)
-    canvas.create_text(app.width / 2, app.mapCreationOffset / 2,
-                        text = 'Map Creator',
-                        font = 'Arial 20 bold')
-    canvas.create_text(app.width / 6, (app.height + app.mapCreationOffset) / 2,
-                        text = 'Small Map!')
-    canvas.create_text(app.width / 2, (app.height + app.mapCreationOffset) / 2,
-                        text = 'Medium Map!')
-    canvas.create_text(app.width * 5/ 6, (app.height + app.mapCreationOffset) / 2,
-                        text = 'Large Map!')
+
+
+
 def drawFigure(app, canvas):
 #    pilImage = PIL.Image.open(app.charAnimations[app.currChar][app.moveType][app.currFrame])
 #    resizedImage = pilImage.resize((app.charWidth, app.charHeight))
@@ -262,10 +242,7 @@ def drawMap(app, canvas):
         image = ImageTk.PhotoImage(obstacle.imageFile)
         canvas.create_image(x, y, image = image)
 
-def drawEnemies(app, canvas):
-    for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
-        image = ImageTk.PhotoImage(enemy.frames[enemy.moveType][enemy.currFrame])
-        canvas.create_image(enemy.x, enemy.y, image = image)
+
 
 def drawArrows(app, canvas):
     for arrow in app.arrows:
@@ -294,7 +271,19 @@ def testingModeKey(app, event):
         app.map.generatedMap[app.mapRow][app.mapCol].obstacles.clear()
     elif event.key == 'Space':
         dostep(app)
+def drawEnemies(app, canvas):
+    for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
+        image = ImageTk.PhotoImage(enemy.frames[enemy.moveType][enemy.currFrame])
+        canvas.create_image(enemy.x, enemy.y, image = image)
 
+def drawWinScreen(app, canvas):
+    canvas.create_rectangle(0, 0, app.width, app.height, fill = 'turquoise')
+    canvas.create_text(midpoint(0, app.width), midpoint(0, app.height),
+                       text = 'YOU WON!', font = 'Arial 48 bold')
+
+def initTimer(app):
+    app.timerDelay = 50
+    app.timerCount = 0
 '''
 class audioThread(threading.Thread):
     def __init__(self, threadID):
