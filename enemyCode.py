@@ -5,6 +5,7 @@ from helpfulFunctions import *
 from combatCode import *
 from arrowCode import *
 
+
 def enemyMove(app):
     for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
         if enemy.stats['attType'] in ['sweep', 'stab']:
@@ -84,6 +85,8 @@ class Enemy(object):
                         destroyed.append((obstacle, x, y))
             if distance(self.x, self.y, app.charX, app.charY) <= 100:
                 app.charStats[app.currChar]['hitPoints'] -= damageCalculator(self.stats, app.weaponItems[self.stats['weapon']])
+                if app.charStats[app.currChar]['hitPoints'] <= 0:
+                    app.dead = True
         else:
             pass
 
@@ -138,7 +141,6 @@ def meleeEnemyMove(app, theta, enemy):
             smallestF = f
             bestMove = (x, y)
     if len(possibleMoves) == 0:
-        print(enemy.x, enemy.y)
         return
     enemy.x = bestMove[0]
     enemy.y = bestMove[1]

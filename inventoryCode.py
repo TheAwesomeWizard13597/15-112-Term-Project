@@ -1,5 +1,6 @@
 from helpfulFunctions import *
 from PIL import ImageTk
+import copy, random
 
 def initInventory(app):
     app.invMargin = 20
@@ -13,23 +14,25 @@ def initInventory(app):
     app.inventory = False
     app.invAnimationCount = 0
     app.invCurrFrame = 0
+    app.inv = []
+    app.helmet = None
+    app.chestplate = None
+    app.leggings = None
+    app.boots = None
 
 def drawInventory(app, canvas):
     canvas.create_rectangle(0, 0, app.height, app.width, fill = 'red')
     gridWidth = app.width - 2 * app.invMargin
     cellWidth = gridWidth // app.invCols
-    itemList = list(app.junkItems.values()) + list(app.armorItems.values()) + list(app.weaponItems.values())
-    inventory = []
-    for item in itemList:
-        if item.amount > 0 and item.imageSource != None:
-            inventory.append(item)
-    print(inventory)
     for row in range(app.invRows):
         for col in range(app.invCols):
             x0, y0, x1, y1 = getInvCellBounds(app, row, col)
             if (row, col) in [app.helmetCoords, app.chestCoords, app.leggingCoords, app.bootCoords]:
                 color = 'blue'
                 canvas.create_rectangle(x0, y0, x1, y1, fill=color)
+    inventory = copy.copy(app.inv)
+    inventory.reverse()
+    #print(inventory)
     for (row, col) in app.invCoords:
         x0, y0, x1, y1 = getInvCellBounds(app, row, col)
         if len(inventory) > 0:
@@ -40,13 +43,25 @@ def drawInventory(app, canvas):
             canvas.create_text(x1 - 10, y1 - 10, text = f'x{item.amount}')
         else:
             canvas.create_rectangle(x0, y0, x1, y1, fill = 'white')
+    if app.helmet != None:
+        x0, y0, x1, y1 = getInvCellBounds(app, app.helmetCoords[0], app.helmetCoords[1])
+        resizedImage = app.helmet.imageSource.resize((cellWidth, cellWidth))
+        image = ImageTk.PhotoImage(resizedImage)
+        canvas.create_image(midpoint(x0, x1), midpoint(y0, y1), image = image)
     for char in ['char0']:
         resizedImage = app.charAnimations[char]['idle'][app.invCurrFrame].resize((4*cellWidth, 4*cellWidth))
         image = ImageTk.PhotoImage(resizedImage)
         x0, y0, trash, trash1 = getInvCellBounds(app, 1, 1)
         trash2, trash3, x1, y1 = getInvCellBounds(app, 4, 4)
         canvas.create_image(midpoint(x0, x1), midpoint(y0, y1), image = image)
-
+def getInv(app):
+    itemList = list(app.junkItems.values()) + list(app.armorItems.values()) + list(app.weaponItems.values())
+    inventory = []
+    for item in itemList:
+        if item.amount > 0 and item.imageSource != None:
+            inventory.append(item)
+    print(inventory)
+    app.inv = inventory
 
 def doStepInv(app):
     inventoryAnimation(app)

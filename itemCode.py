@@ -2,8 +2,30 @@ from dataclasses import make_dataclass #Testing testing testing
 import pandas as pd
 import os, PIL.Image
 
+def initItems(app):
+    app.droppedItems = []
+    app.junkItems = getJunkItems()
+    app.weaponItems = getWeaponItems()
+    app.invTest = []
+    app.armorItems = getArmorItems()
+    app.equippedWeapon = app.weaponItems['sword']
+    getItemDrops(app)
 
-
+def itemDrop(app):
+    itemProbability = random.randint(0, 100)
+    if itemProbability < (100 - app.uncommonProbability - app.rareProbability):
+        item = random.choice(app.drops['junk'])
+        app.uncommonProbability += 5
+        app.rareProbability += 1
+    elif itemProbability < (100 - app.rareProbability):
+        item = random.choice(app.drops['uncommon'])
+        app.uncommonProbability = 25
+        app.rareProbability += 1
+    else:
+        item = random.choice(app.drops['rare'])
+        app.uncommonProbability = 25
+        app.rareProbability = 5
+    return item
 
 def getItemDrops(app):
     app.drops = {'junk': list(app.junkItems.values()), 'uncommon': [], 'rare': []}
