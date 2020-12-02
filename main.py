@@ -1,19 +1,4 @@
-from cmu_112_graphics import * 
-from characterCode import *
-from helpfulFunctions import *
-from itemCode import *
-from testFunctions import *
-from deadCode import *
-#from draw import *
-from combatCode import * 
-from mapCode import *
-from arrowCode import *
-from testCode import *
-from inventoryCode import *
-from animationCode import *
-from craftingCode import *
-from keyBindings import *
-from pauseCode import *
+from imports import *
 import random, threading, ctypes, time, wave
 #from pydub import AudioSegment
 #from pydub.playback import play
@@ -81,6 +66,8 @@ def keyPressed(app, event):
     if app.normalPlay:
         dx = 0
         dy = 0
+        if app.charAttack:
+            return
         if event.key == app.keybindings['toggleCrafting']:
             getInv(app)
             app.crafting = True
@@ -130,13 +117,28 @@ def mousePressed(app, event):
     if app.crafting:
         craftingMousePressed(app, event)
     if app.inventory:
+        equipNewItem = False
         cell = getInvCell(app, event.x, event.y)
         if cell in app.invCoords:
             index = app.invCoords.index(cell)
             if index < len(app.inv):
                 app.currInvItem = app.inv[index]
-        if cell == app.helmetCoords and app.currInvItem != None:
+        if cell == app.helmetCoords and isCompatibleArmor(app.currInvItem, 'head'):
             app.helmet = app.currInvItem
+            equipNewItem = True
+        if cell == app.chestCoords and isCompatibleArmor(app.currInvItem, 'chest'):
+            app.chestplate = app.currInvItem
+            equipNewItem = True
+        if cell == app.leggingCoords and isCompatibleArmor(app.currInvItem, 'legs'):
+            app.leggings = app.currInvItem
+            equipNewItem = True
+        if cell == app.bootCoords and isCompatibleArmor(app.currInvItem, 'feet'):
+            app.boots = app.currInvItem
+            equipNewItem = True
+        if cell == app.weaponCoords and isCompatibleAtt(app.currInvItem, app.charStats[app.currChar]['attType']):
+            app.equippedWeapon = app.currInvItem
+            equipNewItem = True
+        if equipNewItem:
             app.currInvItem.amount -= 1
             app.currInvItem = None
     if app.isPaused and not app.resetConfirmation and not app.keyBindingChange:
@@ -155,6 +157,8 @@ def mousePressed(app, event):
         mapCreationMousePressed(app, event)
 
     if app.normalPlay:
+        if app.charAttack:
+            return
         app.charAttack = not app.charAttack
         app.i = 0
         app.currFrame = 0

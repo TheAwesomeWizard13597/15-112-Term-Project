@@ -1,4 +1,5 @@
 from helpfulFunctions import *
+from itemCode import *
 from PIL import ImageTk
 import copy, random
 
@@ -11,6 +12,7 @@ def initInventory(app):
     app.chestCoords = (2, 6)
     app.leggingCoords = (3, 6)
     app.bootCoords = (4, 6)
+    app.weaponCoords = (2, 8)
     app.inventory = False
     app.invAnimationCount = 0
     app.invCurrFrame = 0
@@ -19,6 +21,24 @@ def initInventory(app):
     app.chestplate = None
     app.leggings = None
     app.boots = None
+
+def isCompatibleAtt(item, attackType):
+    if attackType == 'sweep':
+        return(item.damageType in ['crushing','slashing'])
+    if attackType == 'magic':
+        return(item.damageType in ['magic'])
+    if attackType == 'ranged':
+        return(item.damageType in ['range'])
+
+def isCompatibleArmor(item, type):
+    if item == None:
+        return False
+    if not isinstance(item, armorItem):
+        return False
+    if item.type != type:
+        return False
+    return True
+
 
 def drawInventory(app, canvas):
     canvas.create_rectangle(0, 0, app.height, app.width, fill = 'red')
@@ -46,6 +66,26 @@ def drawInventory(app, canvas):
     if app.helmet != None:
         x0, y0, x1, y1 = getInvCellBounds(app, app.helmetCoords[0], app.helmetCoords[1])
         resizedImage = app.helmet.imageSource.resize((cellWidth, cellWidth))
+        image = ImageTk.PhotoImage(resizedImage)
+        canvas.create_image(midpoint(x0, x1), midpoint(y0, y1), image = image)
+    if app.chestplate != None:
+        x0, y0, x1, y1 = getInvCellBounds(app, app.chestCoords[0], app.chestCoords[1])
+        resizedImage = app.chestplate.imageSource.resize((cellWidth, cellWidth))
+        image = ImageTk.PhotoImage(resizedImage)
+        canvas.create_image(midpoint(x0, x1), midpoint(y0, y1), image = image)
+    if app.leggings != None:
+        x0, y0, x1, y1 = getInvCellBounds(app, app.leggingCoords[0], app.leggingCoords[1])
+        resizedImage = app.leggings.imageSource.resize((cellWidth, cellWidth))
+        image = ImageTk.PhotoImage(resizedImage)
+        canvas.create_image(midpoint(x0, x1), midpoint(y0, y1), image = image)
+    if app.boots != None:
+        x0, y0, x1, y1 = getInvCellBounds(app, app.bootCoords[0], app.bootCoords[1])
+        resizedImage = app.boots.imageSource.resize((cellWidth, cellWidth))
+        image = ImageTk.PhotoImage(resizedImage)
+        canvas.create_image(midpoint(x0, x1), midpoint(y0, y1), image = image)
+    if app.equippedWeapon != None:
+        x0, y0, x1, y1 = getInvCellBounds(app, app.weaponCoords[0], app.weaponCoords[1])
+        resizedImage = app.equippedWeapon.imageSource.resize((cellWidth, cellWidth))
         image = ImageTk.PhotoImage(resizedImage)
         canvas.create_image(midpoint(x0, x1), midpoint(y0, y1), image = image)
     for char in ['char0']:
