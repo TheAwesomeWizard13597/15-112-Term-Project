@@ -14,3 +14,4 @@ from animationCode import *
 from craftingCode import *
 from keyBindings import *
 from pauseCode import *
+from colorCode import *

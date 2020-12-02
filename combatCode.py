@@ -45,7 +45,7 @@ def playerAttack(app, event):
                 if obstacle.hitPoints <= 0:
                     destroyed.append((obstacle, x, y))
         for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
-            if distance(app.charX, app.charY, enemy.x, enemy.y) <= 30:
+            if distance(app.charX, app.charY, enemy.x, enemy.y) <= 80:
                 enemy.stats['hitpoints'] -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
                 if enemy.stats['hitpoints'] <= 0:
                     destroyed.append(enemy)

@@ -10,8 +10,8 @@ def initKeyBindings(app):
                        'moveRight':'d',
                        'moveLeft':'a',
                         }
-    app.keyBindingButtons = ([(50, 100*i, app.width / 2 - 50, 200 * i) for i in range(10)] +
-                            [(app.width / 2 + 50, 100*i + 50, app.width - 50, 200*i + 50) for i in range(10)])
+    app.keyBindingButtons = ([(50, 100*i + 25, app.width / 2 - 50, 100 * i + 75) for i in range(10)] +
+                            [(app.width / 2 + 25, 100*i + 25, app.width - 50, 100*i + 75) for i in range(10)])
 
 def drawChangeKeyBindings(app, canvas):
     canvas.create_rectangle(0, 0, app.width, app.height, fill = 'light grey')

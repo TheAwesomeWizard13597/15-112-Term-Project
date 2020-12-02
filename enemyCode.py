@@ -9,9 +9,11 @@ from arrowCode import *
 def enemyMove(app):
     for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
         if enemy.stats['attType'] in ['sweep', 'stab']:
-            if distance(enemy.x, enemy.y, app.charX, app.charY) <= 100:
+            if distance(enemy.x, enemy.y, app.charX, app.charY) <= 50 and enemy.moveType != 'attack':
                 enemy.reset()
                 enemy.attack(app)
+            elif enemy.moveType == 'attack':
+                pass
             else:
                 meleeEnemyMove(app, 15, enemy)
         else:
@@ -24,7 +26,7 @@ def enemyMove(app):
                 if lineInRectangle((enemy.x, enemy.y), (app.charX, app.charY), obstacle.getBounds(x, y)):
                     rangedEnemyMove(app, 15, enemy)
                     attack = False
-            if attack:
+            if attack and enemy.moveType != 'attack':
                 enemy.reset()
                 enemy.attack(app)
 
@@ -55,11 +57,16 @@ class Enemy(object):
         self.startX = x
         self.startY = y
 
-    def reset(self):
+    def resetAll(self):
         self.moveType = 'idle'
+        self.reset()
+
+    def reset(self):
         self.currFrame = 0
 
     def attack(self, app):
+        if self.moveType == 'attack':
+            return
         self.moveType = 'attack'
         destroyed = []
         if self.stats['attType'] == 'magic':
@@ -77,7 +84,6 @@ class Enemy(object):
                 app.arrows.append(Arrow(self.x, self.y, dx, dy, 'enemy'))
                 self.cooldown = self.initCooldown
         elif self.stats['attType'] == 'sweep':
-
             for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
                 if distance(self.x, self.y, x, y) <= 100:
                     obstacle.hitPoints -= damageCalculator(self.stats, app.weaponItems[self.stats['weapon']])

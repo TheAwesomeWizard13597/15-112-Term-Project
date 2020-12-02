@@ -13,7 +13,7 @@ def resetCraftGrid(app):
     app.craftingGrid = make2dList(3, 3)
 
 def drawCrafting(app, canvas):
-    canvas.create_rectangle(0, 0, app.height, app.width, fill = 'red')
+    canvas.create_rectangle(0, 0, app.height, app.width, fill = app.colorPalette['grassColor'])
     gridWidth = app.width - 2 * app.invMargin
     cellWidth = gridWidth // app.invCols
     inventory = copy.copy(app.inv)
