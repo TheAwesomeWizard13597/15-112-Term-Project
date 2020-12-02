@@ -1,6 +1,6 @@
 from dataclasses import make_dataclass #Testing testing testing
 import pandas as pd
-import os, PIL.Image
+import os, PIL.Image, random
 
 def initItems(app):
     app.droppedItems = []

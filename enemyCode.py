@@ -150,7 +150,7 @@ def rangedEnemyMove(app, theta, enemy):
     possibleMoves = []
     for i in range(360 // theta):
 
-        testX, testY = enemy.x + 10 * math.cos(i * theta), enemy.y + 10 * math.sin(i * theta)
+        testX, testY = enemy.x + 7 * math.cos(i * theta), enemy.y + 7 * math.sin(i * theta)
         legalMove = True
         for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
             if (rectangleIntersect(obstacle.getBounds(x, y), enemy.getBoundsTestLoc(testX, testY)) and 0 < testX < app.width and 0 < testY < app.height):
