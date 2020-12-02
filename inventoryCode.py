@@ -41,28 +41,28 @@ def isCompatibleArmor(item, type):
 
 
 def drawInventory(app, canvas):
-    canvas.create_rectangle(0, 0, app.height, app.width, fill = 'red')
+    canvas.create_rectangle(0, 0, app.height, app.width, fill = app.colorPalette['grassColor'])
     gridWidth = app.width - 2 * app.invMargin
     cellWidth = gridWidth // app.invCols
     for row in range(app.invRows):
         for col in range(app.invCols):
             x0, y0, x1, y1 = getInvCellBounds(app, row, col)
             if (row, col) in [app.helmetCoords, app.chestCoords, app.leggingCoords, app.bootCoords]:
-                color = 'blue'
+                color = 'white'
                 canvas.create_rectangle(x0, y0, x1, y1, fill=color)
     inventory = copy.copy(app.inv)
     inventory.reverse()
     #print(inventory)
     for (row, col) in app.invCoords:
         x0, y0, x1, y1 = getInvCellBounds(app, row, col)
+        canvas.create_rectangle(x0, y0, x1, y1, fill='white')
         if len(inventory) > 0:
             item = inventory.pop()
             resizedImage = item.imageSource.resize((cellWidth, cellWidth))
             image = ImageTk.PhotoImage(resizedImage)
             canvas.create_image(midpoint(x0, x1), midpoint(y0, y1), image = image)
             canvas.create_text(x1 - 10, y1 - 10, text = f'x{item.amount}')
-        else:
-            canvas.create_rectangle(x0, y0, x1, y1, fill = 'white')
+
     if app.helmet != None:
         x0, y0, x1, y1 = getInvCellBounds(app, app.helmetCoords[0], app.helmetCoords[1])
         resizedImage = app.helmet.imageSource.resize((cellWidth, cellWidth))

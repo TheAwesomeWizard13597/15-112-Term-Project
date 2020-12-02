@@ -22,7 +22,7 @@ def charAnimation(app):
 def enemAnimation(app):
     for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
         if enemy.currFrame >= len(enemy.frames[enemy.moveType]) - 1:
-            enemy.reset()
+            enemy.resetAll()
         else:
             enemy.currFrame += 1
 

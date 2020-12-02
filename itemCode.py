@@ -13,7 +13,7 @@ def initItems(app):
 
 def itemDrop(app):
     itemProbability = random.randint(0, 100)
-    if itemProbability < (100 - app.uncommonProbability - app.rareProbability):
+    if itemProbability <= 100:#(100 - app.uncommonProbability - app.rareProbability):
         item = random.choice(app.drops['junk'])
         app.uncommonProbability += 5
         app.rareProbability += 1

@@ -8,6 +8,7 @@ import random, threading, ctypes, time, wave
         
 def appStarted(app):
     #Movement Variables
+    initColors(app)
     initChar(app)
     initItems(app)
     initMap(app)
@@ -37,6 +38,10 @@ def getAppState(app):
 
 
 def keyPressed(app, event):
+    if app.won:
+        if event.key == 't':
+            appStarted(app)
+        return
     if app.isPaused:
         if event.key == app.keybindings['togglePause']:
             app.isPaused = not app.isPaused
@@ -155,6 +160,7 @@ def mousePressed(app, event):
             return
     if app.mapCreation:
         mapCreationMousePressed(app, event)
+        return
 
     if app.normalPlay:
         if app.charAttack:
@@ -241,7 +247,7 @@ def drawFigure(app, canvas):
     imagesprite = canvas.create_image(app.charX, app.charY, image = image)
 
 def drawMap(app, canvas):
-    canvas.create_rectangle(0, 0, app.width, app.height, fill = 'green')
+    canvas.create_rectangle(0, 0, app.width, app.height, fill = app.colorPalette['grassColor'])
     for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
         image = ImageTk.PhotoImage(obstacle.imageFile)
         canvas.create_image(x, y, image = image)
@@ -281,9 +287,12 @@ def drawEnemies(app, canvas):
         canvas.create_image(enemy.x, enemy.y, image = image)
 
 def drawWinScreen(app, canvas):
-    canvas.create_rectangle(0, 0, app.width, app.height, fill = 'turquoise')
+    canvas.create_rectangle(0, 0, app.width, app.height, fill = app.colorPalette['backgroundUI'])
     canvas.create_text(midpoint(0, app.width), midpoint(0, app.height),
-                       text = 'YOU WON!', font = 'Arial 48 bold')
+                       text = 'YOU WON!', font = 'Arial 48 bold', fill = app.colorPalette['textColor'])
+    canvas.create_text(midpoint(0, app.width), midpoint(midpoint(0, app.height), app.height),
+                       text = 'Press t to restart!', font = 'Arial 24 bold',
+                       fill = app.colorPalette['textColor'])
 
 def initTimer(app):
     app.timerDelay = 50
