@@ -66,6 +66,10 @@ def keyPressed(app, event):
     if app.crafting:
         if event.key == app.keybindings['toggleCrafting']:
             app.normalPlay = True
+            for row in app.craftingGrid:
+                for item in row:
+                    if item != None:
+                        item.amount += 1
             app.crafting = False
             return
     if app.normalPlay:

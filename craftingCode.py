@@ -99,5 +99,11 @@ def craftingMousePressed(app, event):
         if app.craftingGrid[cell[0] - 1][cell[1] - 1] != None:
             app.craftingGrid[cell[0] - 1][cell[1] - 1].amount += 1
             app.craftingGrid[cell[0] - 1][cell[1] - 1] = None
+            for recipe in app.craftingRecipes:
+                print(app.craftingGrid, recipe)
+                if craftingRecipesEq(recipe[0:3], app.craftingGrid):
+                    app.craftingResults = recipe[3]
+                    return
+                app.craftingResults = None
 
 

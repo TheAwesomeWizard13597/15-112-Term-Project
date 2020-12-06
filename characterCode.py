@@ -13,7 +13,7 @@ from helpfulFunctions import *
 def initChar(app):
     app.charX = app.width / 2
     app.charY = app.height / 2
-    app.speed = 5
+    app.speed = 15
     app.charAnimations, app.charStats = getCharacters()
     app.charWidth = app.width // 3
     app.charHeight = app.height // 3
@@ -21,20 +21,36 @@ def initChar(app):
 
 def makeMove(app, dx, dy):
     legalMove = True
+    print(app.mapRow, app.mapCol)
     if app.charX + dx >= app.width:
+        if app.mapRow == len(app.map.generatedMap) - 1:
+            app.charX -= 10
+            return
         app.mapRow += 1
         app.charX = 10
         app.droppedItems = []
-    elif app.charX - dx <= 0:
+    elif app.charX + dx <= 0:
+        if app.mapRow == 0:
+            app.charX += 10
+            return
         app.mapRow -= 1
         app.droppedItems = []
         app.charX = app.width - 10
     elif app.charY + dy >= app.height:
+        if app.mapCol == 0:
+            print('here!')
+            app.charY -= 10
+            return
         app.mapCol -= 1
         app.charY = 10
         app.droppedItems = []
-    elif app.charY - dy <= 0:
-        app.mapCol -= 1
+    elif app.charY + dy <= 0:
+        if app.mapCol == len(app.map.generatedMap) -1:
+            print('here3!')
+            app.charY += 10
+            print(app.charY)
+            return
+        app.mapCol += 1
         app.charY = app.height - 10
         app.droppedItems = []
     testX, testY = app.charX + dx, app.charY + dy

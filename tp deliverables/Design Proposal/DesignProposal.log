@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.11.9)  29 NOV 2020 10:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.11.9)  5 DEC 2020 10:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -219,38 +219,41 @@ LaTeX Font Info:    External font `cmex10' loaded for size
  [1
 
 {c:/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<char.PNG, id=75, 100.375pt x 100.375pt>
+<char.PNG, id=80, 100.375pt x 100.375pt>
 File: char.PNG Graphic file (type png)
 <use char.PNG>
 Package pdftex.def Info: char.PNG  used on input line 30.
 (pdftex.def)             Requested size: 85.35826pt x 85.36356pt.
  [1 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/char.PNG>] [2]
-<Capture.png, id=87, 1409.265pt x 639.13782pt>
+<Capture.png, id=92, 1409.265pt x 639.13782pt>
 File: Capture.png Graphic file (type png)
 <use Capture.png>
 Package pdftex.def Info: Capture.png  used on input line 111.
 (pdftex.def)             Requested size: 284.52756pt x 129.03459pt.
  [3 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Capture.png>]
-<Storyboard0.PNG, id=95, 677.53125pt x 472.76625pt>
+<Storyboard0.PNG, id=100, 677.53125pt x 472.76625pt>
 File: Storyboard0.PNG Graphic file (type png)
 <use Storyboard0.PNG>
 Package pdftex.def Info: Storyboard0.PNG  used on input line 123.
 (pdftex.def)             Requested size: 284.52756pt x 198.53882pt.
-<Storyboard1.PNG, id=96, 653.44125pt x 449.42906pt>
+<Storyboard1.PNG, id=101, 653.44125pt x 449.42906pt>
 File: Storyboard1.PNG Graphic file (type png)
 <use Storyboard1.PNG>
 Package pdftex.def Info: Storyboard1.PNG  used on input line 128.
 (pdftex.def)             Requested size: 284.52756pt x 195.69206pt.
-<Storyboard2.PNG, id=97, 661.72218pt x 471.26062pt>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<Storyboard2.PNG, id=102, 661.72218pt x 471.26062pt>
 File: Storyboard2.PNG Graphic file (type png)
 <use Storyboard2.PNG>
 Package pdftex.def Info: Storyboard2.PNG  used on input line 133.
 (pdftex.def)             Requested size: 284.52756pt x 202.63092pt.
 
-
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<Storyboard3.PNG, id=98, 672.26157pt x 490.83376pt>
+<Storyboard3.PNG, id=103, 672.26157pt x 490.83376pt>
 File: Storyboard3.PNG Graphic file (type png)
 <use Storyboard3.PNG>
 Package pdftex.def Info: Storyboard3.PNG  used on input line 138.
@@ -258,7 +261,7 @@ Package pdftex.def Info: Storyboard3.PNG  used on input line 138.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<Storyboard4.PNG, id=99, 660.96938pt x 493.845pt>
+<Storyboard4.PNG, id=104, 660.96938pt x 493.845pt>
 File: Storyboard4.PNG Graphic file (type png)
 <use Storyboard4.PNG>
 Package pdftex.def Info: Storyboard4.PNG  used on input line 143.
@@ -266,7 +269,7 @@ Package pdftex.def Info: Storyboard4.PNG  used on input line 143.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<Storyboard5.PNG, id=100, 671.50874pt x 481.04718pt>
+<Storyboard5.PNG, id=105, 671.50874pt x 481.04718pt>
 File: Storyboard5.PNG Graphic file (type png)
 <use Storyboard5.PNG>
 Package pdftex.def Info: Storyboard5.PNG  used on input line 148.
@@ -274,23 +277,23 @@ Package pdftex.def Info: Storyboard5.PNG  used on input line 148.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[4 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard0.PNG>] [5 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard1.PNG> <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard2.PNG>] [6 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard3.PNG> <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard4.PNG>] [7 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard5.PNG>] (d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/DesignProposal.aux)
+[4 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard0.PNG>] [5 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard1.PNG>] [6 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard2.PNG> <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard3.PNG>] [7 <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard4.PNG> <d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/Storyboard5.PNG>] (d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/DesignProposal.aux)
 Package rerunfilecheck Info: File `DesignProposal.out' has not changed.
-(rerunfilecheck)             Checksum: 95A7C7BAD961D11438E6D3FF6CB6DB76;553.
+(rerunfilecheck)             Checksum: 96582C3C5E3628CBCE7975BDF989984A;614.
  ) 
 Here is how much of TeX's memory you used:
- 5209 strings out of 479485
- 82825 string characters out of 5875916
- 378300 words of memory out of 5000000
- 22111 multiletter control sequences out of 15000+600000
+ 5211 strings out of 479485
+ 82855 string characters out of 5875916
+ 379303 words of memory out of 5000000
+ 22112 multiletter control sequences out of 15000+600000
  540425 words of font info for 47 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  66i,6n,72p,351b,321s stack positions out of 5000i,500n,10000p,200000b,80000s
 <c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on "d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/DesignProposal.pdf" (8 pages, 234881 bytes).
+Output written on "d:/Google Drive/Ze Ultimate Folder/CMU 2020-2021 (Fall)/Programming and Comp Sci/Term Project/tp deliverables/Design Proposal/DesignProposal.pdf" (8 pages, 235117 bytes).
 PDF statistics:
- 148 PDF objects out of 1000 (max. 8388607)
- 116 compressed objects within 2 object streams
- 28 named destinations out of 1000 (max. 500000)
- 113 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 153 PDF objects out of 1000 (max. 8388607)
+ 121 compressed objects within 2 object streams
+ 29 named destinations out of 1000 (max. 500000)
+ 121 words of extra memory for PDF output out of 10000 (max. 10000000)
 

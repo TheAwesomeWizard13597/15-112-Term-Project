@@ -34,6 +34,7 @@ def generateMapApp(app):
         app.mapRow = app.mapCol = 2
     app.mapCreation = False
     app.normalPlay = True
+    print(len(app.map.generatedMap))
 
 def mapCreationMousePressed(app, event):
     if event.y > app.mapCreationOffset:
@@ -97,11 +98,11 @@ def getObstacleImages():
 
 def getObstacles(app):
     obstacleImages = getObstacleImages()
-    largeRock = obstacle('large rock', 100, 100, obstacleImages['rock'].resize((100, 100)), 10, app.junkItems['rock'])
-    mediumRock = obstacle('medium rock', 75, 75, obstacleImages['rock'].resize((75, 75)), 10, app.junkItems['rock'])
-    smallRock = obstacle('small rock', 50, 50, obstacleImages['rock'].resize((50, 50)), 10, app.junkItems['rock'])
-    largeTree = obstacle('large tree', 100, 100, obstacleImages['tree'].resize((100, 100)), 10, app.junkItems['wood'])
-    mediumTree = obstacle('medium tree', 75, 75, obstacleImages['tree'].resize((75, 75)), 10, app.junkItems['wood'])
+    largeRock = obstacle('large rock', 100, 100, obstacleImages['largeRock'].resize((100, 100)), 10, app.junkItems['rock'])
+    mediumRock = obstacle('medium rock', 75, 75, obstacleImages['mediumRock'].resize((75, 75)), 10, app.junkItems['rock'])
+    smallRock = obstacle('small rock', 50, 50, obstacleImages['smallRock'].resize((50, 50)), 10, app.junkItems['rock'])
+    largeTree = obstacle('large tree', 100, 100, obstacleImages['largeTree'].resize((100, 100)), 10, app.junkItems['wood'])
+    mediumTree = obstacle('medium tree', 75, 75, obstacleImages['mediumTree'].resize((75, 75)), 10, app.junkItems['wood'])
     smallTree = obstacle('small tree', 50, 50, obstacleImages['tree'].resize((50, 50)), 10, app.junkItems['wood'])
     return (largeRock, mediumRock, smallRock, largeTree, mediumTree, smallTree)
 
