@@ -21,7 +21,6 @@ def initChar(app):
 
 def makeMove(app, dx, dy):
     legalMove = True
-    print(app.mapRow, app.mapCol)
     if app.charX + dx >= app.width:
         if app.mapRow == len(app.map.generatedMap) - 1:
             app.charX -= 10

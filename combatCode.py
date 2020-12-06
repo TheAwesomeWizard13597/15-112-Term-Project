@@ -12,11 +12,19 @@ def damageCalculator(charStats, item, targetArmor = None):
     if item.damageType == 'crushing':
         damage = 0.5 * charStats['strength'] * item.strength
     return (damage)
-'''
-def doesHit(charX, charY, enemyX, enemyY, currObstaclePositions):
-    slope = (enemyY - charY) / (enemyX - charX)
-    for (x, y) in currObstaclePositions:
-'''
+
+def randomFunction(x0, y0, x1, y1):
+    return math.sqrt((x0 + x1)**2 + (y0 + y1)**2)
+def doesHitMelee(app, target, targetX, targetY):
+    dist = distance(app.charX, app.charY, targetX, targetY)
+    targetWidth, targetHeight = target.imageFile.size
+    charWidth, charHeight = 100, 100
+    print(target.name, randomFunction(targetWidth // 2, targetHeight // 2, charWidth // 2, charHeight //2))
+    print(dist)
+    if randomFunction(targetWidth // 2, targetHeight // 2, charWidth // 2, charHeight //2) > dist:
+        return True
+    return False
+
 def playerAttack(app, event):
     factor = 10
     destroyed = []
@@ -40,7 +48,7 @@ def playerAttack(app, event):
         app.arrows.append(Arrow(app.charX, app.charY, dx, dy, 'player'))
     elif app.charStats[app.currChar]['attType'] == 'sweep':
         for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
-            if distance(app.charX, app.charY, x, y) <= 100:
+            if doesHitMelee(app, obstacle, x, y):
                 obstacle.hitPoints -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
                 if obstacle.hitPoints <= 0:
                     destroyed.append((obstacle, x, y))
