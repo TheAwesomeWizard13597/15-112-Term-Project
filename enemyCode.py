@@ -105,6 +105,7 @@ def getEnemies():
     for enemyName, enemyStats in enemyDf.iterrows():
         frames = getFrames(enemyName)
         enemyList.append(Enemy(None, None, frames, enemyStats))
+    print(enemyList)
     return enemyList
 
 def getFrames(name):

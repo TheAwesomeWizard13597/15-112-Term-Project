@@ -1,4 +1,4 @@
-from cmu_112_graphics import *
+from cmu_112_graphics import * #Using CMU Graphics Framework
 from characterCode import *
 from helpfulFunctions import *
 from itemCode import *
