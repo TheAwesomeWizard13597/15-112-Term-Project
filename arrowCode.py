@@ -53,7 +53,7 @@ def moveArrow(app):
                         break
             elif arrow.launcher == 'enemy':
                 if pointInRectangle(arrow.point, (app.charX + 50, app.charY + 50, app.charX - 50, app.charY - 50)):
-                    app.charStats[app.currChar]['hitPoints'] -= 100
+                    app.charStats[app.currChar]['hitPoints'] -= 50
                     if app.charStats[app.currChar]['hitPoints'] <= 0:
                         app.dead = True
                     app.arrows.remove(arrow)

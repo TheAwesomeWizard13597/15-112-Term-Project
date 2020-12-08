@@ -18,7 +18,18 @@ def initChar(app):
     app.charWidth = app.width // 3
     app.charHeight = app.height // 3
     app.currChar = 'char0'
+    app.charSpecialMove = False
+    app.specialMoveCd = 10
+    app.initSpecialMoveCd = 10
+    app.currSelectFrame = 0
+    app.switchCharacters = False
 
+def doStepCharSelect(app):
+    if app.timerCount % 4 == 0:
+        app.currSelectFrame += 1
+        if app.currSelectFrame >= 5:
+            app.currSelectFrame = 0
+    app.timerCount += 1
 def makeMove(app, dx, dy):
     legalMove = True
     if app.charX + dx >= app.width:
@@ -45,9 +56,7 @@ def makeMove(app, dx, dy):
         app.droppedItems = []
     elif app.charY + dy <= 0:
         if app.mapCol == len(app.map.generatedMap) -1:
-            print('here3!')
             app.charY += 10
-            print(app.charY)
             return
         app.mapCol += 1
         app.charY = app.height - 10
@@ -60,12 +69,79 @@ def makeMove(app, dx, dy):
         if distance(testX, testY, x, y) <= 40:
             item.amount += 1
             app.droppedItems.remove((item, x, y))
+            app.itemsCollected += 1
     if legalMove:
         app.charX += dx
         app.charY += dy
+        app.stepsTaken += 1
     else:
         app.charX -= dx
         app.charY -= dy
+
+def specialMove(app, event):
+    if app.currChar == 'char0':
+        angle = math.atan2((event.y - app.charY), (event.x - app.charX))
+        app.charX += 100 * math.cos(angle)
+        app.charY += 100 * math.sin(angle)
+    if app.currChar == 'char1':
+        for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
+            if distance(app.charX, app.charY, enemy.x, enemy.y) < 300:
+                enemy.frozen = 50
+
+def drawSpecialMoveCd(app, canvas):
+    percentage = (app.initSpecialMoveCd - app.specialMoveCd) / app.initSpecialMoveCd
+    canvas.create_rectangle(app.width - 110, 30, app.width - 10, 20, fill = 'white')
+    canvas.create_rectangle(app.width - 110, 30, app.width - 110 + 100 * percentage, 20, fill = 'purple')
+
+def characterSelectionMousePresesd(app, event):
+    if event.x > app.width / 2 and event.y > 100:
+        app.currChar = 'char1'
+        app.equippedWeapon = app.weaponItems['bow']
+        app.switchCharacters = False
+        app.normalPlay = True
+    elif event.x < app.width / 2 and event.y > 100:
+        app.currChar = 'char0'
+        app.equippedWeapon = app.weaponItems['sword']
+        app.switchCharacters = False
+        app.normalPlay = True
+def drawCharacterSelectionScreen(app, canvas):
+    canvas.create_rectangle(0, 0, app.width, app.height, fill = 'purple')
+    canvas.create_line(0, 100, app.width, 100)
+    canvas.create_line(app.width / 2, 100, app.width / 2, app.height)
+    canvas.create_text(app.width / 2, 50, text = 'Character Selection!', font = 'Arial 24 bold')
+    for char in app.charAnimations:
+        stats = app.charStats[char]
+        statList = list(stats)
+        for i in range(len(statList)):
+            if statList[i] in ['strength', 'constitution', 'dexterity', 'intelligence']:
+                percentage = stats[statList[i]] / 10
+                width = app.width / 4
+                if char == 'char0':
+                    canvas.create_text(app.width / 16, 50 * i + (3/4) * app.height + 12.5, text = statList[i], font = 'bold')
+                    canvas.create_rectangle(app.width / 8, 50 * i + (3/4) * app.height, app.width / 8 + width, 50 * i + (3/4) * app.height + 20, fill = 'white')
+                    canvas.create_rectangle(app.width / 8, 50 * i + (3 / 4) * app.height, app.width / 8 + percentage * width,
+                                            50 * i + (3 / 4) * app.height + 20, fill='green')
+                elif char == 'char1':
+                    canvas.create_text(app.width / 16 + app.width / 2, 50 * i + (3 / 4) * app.height + 12.5, text=statList[i],
+                                       font='bold')
+                    canvas.create_rectangle(app.width / 2 + app.width / 8, 50 * i + (3 / 4) * app.height, app.width / 2 + app.width / 8 + width,
+                                            50 * i + (3 / 4) * app.height + 20, fill='white')
+                    canvas.create_rectangle(app.width / 2 + app.width / 8, 50 * i + (3 / 4) * app.height,
+                                            app.width / 2 + app.width / 8 + percentage * width,
+                                            50 * i + (3 / 4) * app.height + 20, fill='green')
+            elif statList[i] == 'hitPoints':
+                if char == 'char0':
+                    canvas.create_text(app.width / 4, app.height - 20, text = f'HitPoints: {stats[statList[i]]}', font = 'Arial 16 bold')
+                else:
+                    canvas.create_text(3 * app.width / 4, app.height - 20, text = f'HitPoints: {stats[statList[i]]}', font = 'Arial 16 bold')
+        resizedImage = app.charAnimations[char]['idle'][app.currSelectFrame].resize((300, 300))
+        image = ImageTk.PhotoImage(resizedImage)
+        if char == 'char0':
+            canvas.create_image(midpoint(midpoint(0, app.width), 0), midpoint(0, app.height), image = image)
+        elif char == 'char1':
+            canvas.create_image(midpoint(midpoint(0, app.width), app.width), midpoint(0, app.height), image=image)
+
+
 
 #Creates a dictionary of characters with the keys mapping to 
 #Lists of the frames of each character

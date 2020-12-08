@@ -19,8 +19,6 @@ def doesHitMelee(app, target, targetX, targetY):
     dist = distance(app.charX, app.charY, targetX, targetY)
     targetWidth, targetHeight = target.imageFile.size
     charWidth, charHeight = 100, 100
-    print(target.name, randomFunction(targetWidth // 2, targetHeight // 2, charWidth // 2, charHeight //2))
-    print(dist)
     if randomFunction(targetWidth // 2, targetHeight // 2, charWidth // 2, charHeight //2) > dist:
         return True
     return False
@@ -37,7 +35,6 @@ def playerAttack(app, event):
                     destroyed.append((obstacle, x, y))
         for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
             if lineInRectangle((app.charX, app.charY), (event.x, event.y), enemy.getBounds()):
-                print('here!')
                 enemy.stats['hitpoints'] -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
                 if enemy.stats['hitpoints'] <= 0:
                     destroyed.append(enemy)
@@ -57,6 +54,14 @@ def playerAttack(app, event):
                 enemy.stats['hitpoints'] -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
                 if enemy.stats['hitpoints'] <= 0:
                     destroyed.append(enemy)
+        if app.mapRow == app.mapCol == 0:
+            Adam = app.map.generatedMap[app.mapRow][app.mapCol].objectives[0]
+            if distance(app.charX, app.charY, Adam.x, Adam.y) <= 80:
+                Adam.stats['hitpoints'] -= damageCalculator(app.charStats[app.currChar], app.equippedWeapon)
+                print(Adam.stats['hitpoints'])
+                if Adam.stats['hitpoints'] <= 0:
+                    app.won = True
+                    return []
     else: pass
     return destroyed
 

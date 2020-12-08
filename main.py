@@ -21,7 +21,12 @@ def appStarted(app):
     initKeyBindings(app)
     initDead(app)
     initPaused(app)
+    initBuild(app)
     app.enemyKilled = 0
+    app.obstaclesDestroyed = 0
+    app.stepsTaken = 0
+    app.itemsCollected = 0
+    app.deaths = 0
     app.arrows = []
     app.testCount = 0
     app.won = False
@@ -49,7 +54,7 @@ def keyPressed(app, event):
         return
     if app.isDeath:
         return
-    if app.charSelect:
+    if app.switchCharacters:
         return
     if event.key == '`':
         app.testingMode = not app.testingMode
@@ -66,10 +71,11 @@ def keyPressed(app, event):
     if app.crafting:
         if event.key == app.keybindings['toggleCrafting']:
             app.normalPlay = True
-            for row in app.craftingGrid:
-                for item in row:
-                    if item != None:
-                        item.amount += 1
+            for row in range(len(app.craftingGrid)):
+                for col in range(len(app.craftingGrid[0])):
+                    if app.craftingGrid[row][col] != None:
+                        app.craftingGrid[row][col].amount += 1
+                        app.craftingGrid[row][col] = None
             app.crafting = False
             return
     if app.normalPlay:
@@ -77,6 +83,8 @@ def keyPressed(app, event):
         dy = 0
         if app.charAttack:
             return
+        if event.key == app.keybindings['specialMove'] and app.specialMoveCd == 0:
+            app.charSpecialMove = True
         if event.key == app.keybindings['toggleCrafting']:
             getInv(app)
             app.crafting = True
@@ -108,11 +116,11 @@ def keyPressed(app, event):
             app.normalMove = True
             app.charStats['dirFaced'] = 'right'
             defineMoveType(app)
-        if event.key == 'p':
-            app.pickUp = not app.pickUp
-            app.i = 0
-            app.currFrame = 0
-            defineMoveType(app)
+        if event.key == app.keybindings['toggleBuild']:
+            app.buildMode = not app.buildMode
+        if event.key == app.keybindings['toggleCharSelect']:
+            app.switchCharacters = True
+            app.normalPlay = False
 
         makeMove(app, dx, dy)
 
@@ -121,8 +129,14 @@ def mousePressed(app, event):
         if pointInRectangle((event.x, event.y), app.restartButtonDead[0:4]):
             appStarted(app)
             return
+        if pointInRectangle((event.x, event.y), app.respawnButton[0:4]):
+            respawn(app)
+            return
     if app.testingMode:
         mousePressedTest(app, event)
+    if app.switchCharacters:
+        characterSelectionMousePresesd(app, event)
+        return
     if app.crafting:
         craftingMousePressed(app, event)
     if app.inventory:
@@ -169,6 +183,14 @@ def mousePressed(app, event):
     if app.normalPlay:
         if app.charAttack:
             return
+        if app.buildMode:
+            buildModeMousePressed(app, event)
+            return
+        if app.charSpecialMove:
+            specialMove(app, event)
+            app.specialMoveCd = app.initSpecialMoveCd
+            app.charSpecialMove = False
+            return
         app.charAttack = not app.charAttack
         app.i = 0
         app.currFrame = 0
@@ -180,6 +202,7 @@ def mousePressed(app, event):
 def destroy(app, elem):
     if isinstance(elem, tuple):
         droppedItem = elem[0].drops
+        app.obstaclesDestroyed += 1
         app.droppedItems.append((droppedItem, elem[1], elem[2]))
         app.map.generatedMap[app.mapRow][app.mapCol].obstacles.remove(elem)
     else:
@@ -187,8 +210,6 @@ def destroy(app, elem):
         app.droppedItems.append((droppedItem, elem.x, elem.y))
         app.map.generatedMap[app.mapRow][app.mapCol].enemies.remove(elem)
         app.enemyKilled += 1
-        if app.enemyKilled >= 10:
-            app.won = True
 
 def timerFired(app):
     if app.isPaused:
@@ -197,6 +218,8 @@ def timerFired(app):
         doStepInv(app)
     if app.normalPlay:
         dostep(app)
+    if app.switchCharacters:
+        doStepCharSelect(app)
 
 def dostep(app):
     moveArrow(app)
@@ -204,9 +227,22 @@ def dostep(app):
     for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
         if enemy.stats['attType'] in ['ranged', 'magic']:
             enemy.cooldown -= 1
+    for objective in app.map.generatedMap[app.mapRow][app.mapCol].objectives:
+        if isinstance(objective, Adam):
+            objective.move(app)
+            objective.attack(app)
+            moveProj(app)
+            if objective.cooldown > 0:
+                objective.cooldown -= 1
+
     if app.timerCount % 4 == 0:
         charAnimation(app)
         enemAnimation(app)
+    if app.specialMoveCd > 0:
+        app.specialMoveCd -= 1
+    if app.hoverCount > 0:
+        print('here!')
+        app.hoverCount -= 1
     app.timerCount += 1
 
 def redrawAll(app, canvas):
@@ -223,13 +259,20 @@ def redrawAll(app, canvas):
         drawInventory(app, canvas)
     if app.mapCreation:
         drawMapCreationScreen(app, canvas)
+    if app.switchCharacters:
+        drawCharacterSelectionScreen(app, canvas)
     if app.normalPlay or app.testingMode or app.isPaused:
+        drawBackground(app, canvas)
+        drawBuildScreen(app, canvas)
         drawMap(app, canvas)
         drawEnemies(app, canvas)
         drawFigure(app, canvas)
         drawArrows(app, canvas)
         drawHealthBar(app, canvas)
         drawDrops(app, canvas)
+        drawSpecials(app, canvas)
+        drawSpecialMoveCd(app, canvas)
+        drawBuildMenu(app, canvas)
         if app.testingMode:
             drawTest(app, canvas)
         if app.isPaused or app.resetConfirmation or app.keyBindingChange:
@@ -250,11 +293,14 @@ def drawFigure(app, canvas):
     image = ImageTk.PhotoImage(app.charAnimations[app.currChar][app.moveType][app.currFrame])
     imagesprite = canvas.create_image(app.charX, app.charY, image = image)
 
+def drawBackground(app, canvas):
+    canvas.create_rectangle(0, 0, app.width, app.height, fill=app.colorPalette['grassColor'])
+
 def drawMap(app, canvas):
-    canvas.create_rectangle(0, 0, app.width, app.height, fill = app.colorPalette['grassColor'])
     for obstacle, x, y in app.map.generatedMap[app.mapRow][app.mapCol].obstacles:
-        image = ImageTk.PhotoImage(obstacle.imageFile)
-        canvas.create_image(x, y, image = image)
+        if not isinstance(obstacle, Building):
+            image = ImageTk.PhotoImage(obstacle.imageFile)
+            canvas.create_image(x, y, image = image)
 
 
 
@@ -301,6 +347,10 @@ def drawWinScreen(app, canvas):
 def initTimer(app):
     app.timerDelay = 50
     app.timerCount = 0
+
+def drawSpecials(app, canvas):
+    for objective in app.map.generatedMap[app.mapRow][app.mapCol].objectives:
+        objective.draw(app, canvas)
 '''
 class audioThread(threading.Thread):
     def __init__(self, threadID):

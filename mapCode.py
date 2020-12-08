@@ -1,5 +1,6 @@
 from helpfulFunctions import *
 from itemCode import *
+from adamCode import *
 from enemyCode import *
 import random, copy
 import PIL.Image
@@ -27,15 +28,18 @@ def generateMapApp(app):
     seed = app.getUserInput('Enter a seed here! Leave blank for a random seed')
     app.map = mapData(app.size, app.width, app.height, app, seed = seed)
     if app.size == 'large':
-        app.mapRow = app.mapCol = 4
+        app.mapRow = app.mapCol = app.initMapRow = app.initMapCol = 4
     elif app.size == 'medium':
-        app.mapRow = app.mapCol = 3
+        app.mapRow = app.mapCol = app.initMapRow = app.initMapCol = 3
     else:
-        app.mapRow = app.mapCol = 2
+        app.mapRow = app.mapCol = app.initMapRow = app.initMapCol = 2
+    initSpecials(app)
     app.mapCreation = False
     app.normalPlay = True
     print(len(app.map.generatedMap))
 
+def initSpecials(app):
+    initAdam(app)
 def mapCreationMousePressed(app, event):
     if event.y > app.mapCreationOffset:
         if event.x < app.width / 3:
