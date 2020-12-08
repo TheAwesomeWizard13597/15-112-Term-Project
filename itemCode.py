@@ -137,5 +137,6 @@ def getArmorItems():
 # https://www.clipartmax.com/middle/m2i8G6d3d3d3i8K9_wood-clipart-wooden-log-log-clipart-png/
 # http://clipart-library.com/free/rock-clipart-transparent.html
 # https://www.clipartmax.com/middle/m2K9A0b1d3d3i8i8_green-grass-clip-art-lawn-green-grass-free-vector-graphic-illustration/
-
-
+# http://www.pngall.com/armor-png/download/41383
+# https://www.pikpng.com/pngvi/iwmmRhw_skyrim-ebony-armor-boots-skyrim-ebony-boots-clipart/
+# http://clipart-library.com/clip-art/transparent-helmet-24.htm

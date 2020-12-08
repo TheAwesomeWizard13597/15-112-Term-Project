@@ -22,11 +22,7 @@ def appStarted(app):
     initDead(app)
     initPaused(app)
     initBuild(app)
-    app.enemyKilled = 0
-    app.obstaclesDestroyed = 0
-    app.stepsTaken = 0
-    app.itemsCollected = 0
-    app.deaths = 0
+    initStats(app)
     app.arrows = []
     app.testCount = 0
     app.won = False
@@ -44,12 +40,11 @@ def getAppState(app):
 
 def keyPressed(app, event):
     if app.won:
-        if event.key == 't':
-            appStarted(app)
         return
     if app.isPaused:
         if event.key == app.keybindings['togglePause']:
             app.isPaused = not app.isPaused
+            app.keyBindingChange = False
             app.normalPlay = True
         return
     if app.isDeath:
@@ -125,7 +120,7 @@ def keyPressed(app, event):
         makeMove(app, dx, dy)
 
 def mousePressed(app, event):
-    if app.dead and not app.godMode:
+    if (app.dead and not app.godMode) or app.won:
         if pointInRectangle((event.x, event.y), app.restartButtonDead[0:4]):
             appStarted(app)
             return
@@ -336,13 +331,7 @@ def drawEnemies(app, canvas):
         image = ImageTk.PhotoImage(enemy.frames[enemy.moveType][enemy.currFrame])
         canvas.create_image(enemy.x, enemy.y, image = image)
 
-def drawWinScreen(app, canvas):
-    canvas.create_rectangle(0, 0, app.width, app.height, fill = app.colorPalette['backgroundUI'])
-    canvas.create_text(midpoint(0, app.width), midpoint(0, app.height),
-                       text = 'YOU WON!', font = 'Arial 48 bold', fill = app.colorPalette['textColor'])
-    canvas.create_text(midpoint(0, app.width), midpoint(midpoint(0, app.height), app.height),
-                       text = 'Press t to restart!', font = 'Arial 24 bold',
-                       fill = app.colorPalette['textColor'])
+
 
 def initTimer(app):
     app.timerDelay = 50
