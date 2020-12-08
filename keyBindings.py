@@ -23,7 +23,6 @@ def drawChangeKeyBindings(app, canvas):
         x0, y0, x1, y1 = app.keyBindingButtons[i]
 
         canvas.create_rectangle(x0, y0, x1, y1, fill = 'grey')
-        canvas.create_line(x0, y0, x1, y1)
         midLine = midpoint(midpoint(x0, x1), x1)
         if i < len(keybindList):
             canvas.create_text(midpoint(x0, midLine), midpoint(y0, y1), text = keybindList[i],

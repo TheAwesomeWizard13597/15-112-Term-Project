@@ -17,3 +17,4 @@ from pauseCode import *
 from colorCode import *
 from buildCode import *
 from adamCode import *
+from statsCode import *
