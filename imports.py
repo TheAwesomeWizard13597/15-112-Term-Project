@@ -15,3 +15,5 @@ from craftingCode import *
 from keyBindings import *
 from pauseCode import *
 from colorCode import *
+from buildCode import *
+from adamCode import *

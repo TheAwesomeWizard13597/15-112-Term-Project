@@ -13,9 +13,10 @@ def initTest(app):
     app.teleportButton = (app.width - 10, 400, app.width - 100, 310, 'teleport')
     app.refreshHealthButton = (app.width - 10, 500, app.width - 100, 410, 'health')
     app.godModeButton = (app.width - 10, 600, app.width - 100, 510, 'Godmode')
+    app.addItemButton = (app.width - 10, 700, app.width - 100, 610, 'Add items')
     app.testButtons = [app.obstaclePlacementButton, app.enemyPlacementButton,
                        app.arrowPlacementButton, app.teleportButton, app.refreshHealthButton,
-                       app.godModeButton]
+                       app.godModeButton, app.addItemButton]
     app.test = (app.obstaclePlacement, app.enemyPlacement, app.arrowPlacement, app.teleport)
     app.godMode = False
 
@@ -54,6 +55,18 @@ def mousePressedTest(app, event):
 
             app.godMode = not app.godMode
             print('godMode!', app.godMode)
+        if pointInRectangle((event.x, event.y), app.addItemButton[0:4]):
+            item = app.getUserInput('item?')
+            amount = int(app.getUserInput('amount?'))
+            if item in app.junkItems:
+                app.junkItems[item].amount += amount
+            elif item in app.armorItems:
+                app.armorItems[item].amount += amount
+            elif item in app.weaponItems:
+                app.weaponItems[item].amount += amount
+            else:
+                print('youre dumb as fuck')
+
     else:
         print('here!')
         if app.obstaclePlacement:

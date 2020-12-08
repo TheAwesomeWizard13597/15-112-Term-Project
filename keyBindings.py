@@ -5,10 +5,13 @@ def initKeyBindings(app):
                        'toggleTestMode': '`',
                        'toggleInventory':'i',
                        'toggleCrafting':'x',
+                       'toggleCharSelect':'c',
                        'moveUp':'w',
                        'moveDown':'s',
                        'moveRight':'d',
                        'moveLeft':'a',
+                       'toggleBuild': 'b',
+                       'specialMove': 'e'
                         }
     app.keyBindingButtons = ([(50, 100*i + 25, app.width / 2 - 50, 100 * i + 75) for i in range(10)] +
                             [(app.width / 2 + 25, 100*i + 25, app.width - 50, 100*i + 75) for i in range(10)])

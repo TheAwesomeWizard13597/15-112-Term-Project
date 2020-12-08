@@ -6,3 +6,4 @@ bow,3,0,0,0,1,1,5,None,1,10
 crossbow,2,0,0,0,1,1,6,None,1,10
 club,6,1,0,0,0,0,7,None,1,10
 wand,2,0,0,1,0,1,10,None,1,10
+pingYaBeatingStick,10,1,0,0,0,0,10,None,10,100

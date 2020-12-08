@@ -8,6 +8,9 @@ from arrowCode import *
 
 def enemyMove(app):
     for enemy in app.map.generatedMap[app.mapRow][app.mapCol].enemies:
+        if enemy.frozen > 0:
+            enemy.frozen -= 1
+            return
         if enemy.stats['attType'] in ['sweep', 'stab']:
             if distance(enemy.x, enemy.y, app.charX, app.charY) <= 50 and enemy.moveType != 'attack':
                 enemy.reset()
@@ -43,6 +46,7 @@ class Enemy(object):
         self.currFrame = 0
         self.prevMoves = []
         self.cooldown = self.initCooldown = 30
+        self.frozen = 0
 
     def getBounds(self):
         return self.x + self.width / 2, self.y + self.height / 2, self.x - self.width / 2, self.y - self.height / 2
