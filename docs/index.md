@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## My 15-112 (Fundamentals of Programming) Term Project
 
 You can use the [editor on GitHub](https://github.com/TheAwesomeWizard13597/24-101-Arduino-Project/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
 
